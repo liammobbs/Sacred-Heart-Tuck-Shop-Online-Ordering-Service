@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c12c2955-d377-4be7-b38c-ce9f9434c49c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/.vscode/settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/management/commands/rename.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/migrations/0002_auto_20200321_0127.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/migrations/0003_auto_20200322_0946.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/migrations/0004_auto_20200322_0950.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/migrations/0005_auto_20200322_2006.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/migrations/0006_auto_20200322_2011.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/migrations/0007_auto_20200322_2107.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/migrations/0008_auto_20200322_2108.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/migrations/0009_remove_order_pickup_day.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/migrations/0010_order_pickup_date.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/migrations/0011_order_coupon.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/templatetags/cart_template_tags.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/db.sqlite3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/djecommerce/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/djecommerce/settings/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/djecommerce/settings/base.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/djecommerce/settings/development.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/djecommerce/settings/production.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/djecommerce/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/djecommerce/wsgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/manage.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/addons/datatables-select.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/addons/datatables-select.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/addons/datatables.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/addons/datatables.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/addons/directives.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/addons/directives.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/bootstrap.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/mdb.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/mdb.lite.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/mdb.lite.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/mdb.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/modules/animations-extended.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/modules/animations-extended.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/style.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Bold.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Bold.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Bold.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Light.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Light.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Light.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Light.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Medium.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Medium.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Medium.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Regular.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Regular.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Thin.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Thin.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Thin.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/font/roboto/Roboto-Thin.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/lightbox/default-skin.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/lightbox/default-skin.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/lightbox/preloader.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/overlays/01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/overlays/02.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/overlays/03.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/overlays/04.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/overlays/05.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/overlays/06.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/overlays/07.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/overlays/08.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/overlays/09.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/sample.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/svg/arrow_left.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/svg/arrow_right.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/addons/datatables-select.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/addons/datatables-select.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/addons/datatables.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/addons/datatables.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/addons/rating.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/bootstrap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/jquery-3.3.1.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/mdb.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/mdb.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/modules/chart.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/modules/default-file-input.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/modules/enhanced-modals.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/modules/forms-free.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/modules/jquery.easing.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/modules/scrolling-navbar.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/modules/treeview.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/modules/velocity.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/modules/velocity.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/modules/waves.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/modules/wow.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/js/popper.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/_custom-skin.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/_custom-styles.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/_custom-variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/addons/_datatables-select.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/addons/_datatables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/addons/_directives.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/core/_colors.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/core/_global.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/core/_helpers.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/core/_masks.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/core/_mixins.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/core/_typography.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/core/_variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/core/_waves.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/core/bootstrap/_functions.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/core/bootstrap/_rfs.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/core/bootstrap/_variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_animations-basic.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_badges.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_buttons.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_cards.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_carousels.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_depreciated.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_dropdowns.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_footers.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_forms.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_input-group.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_list-group.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_loader.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_modals.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_msc.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_navbars.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_pagination.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_steppers.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_switch.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_tables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/_treeview.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/modules/animations-extended/_module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/free/modules/animations-extended/animations-extended.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/mdb.lite.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/mdb.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/scss/style.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/account_inactive.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/email.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/email/email_confirmation_message.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/email/email_confirmation_signup_message.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/email/email_confirmation_signup_subject.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/email/email_confirmation_subject.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/email/password_reset_key_message.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/email/password_reset_key_subject.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/email_confirm.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/logout.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/messages/cannot_delete_primary_email.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/messages/email_confirmation_sent.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/messages/email_confirmed.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/messages/email_deleted.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/messages/logged_in.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/messages/logged_out.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/messages/password_changed.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/messages/password_set.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/messages/primary_email_set.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/messages/unverified_primary_email.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/password_change.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/password_reset.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/password_reset_done.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/password_reset_from_key.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/password_reset_from_key_done.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/password_set.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/signup.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/signup_closed.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/snippets/already_logged_in.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/verification_sent.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/account/verified_email_required.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/checkout.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/footer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/home.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/navbar.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/openid/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/openid/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/order_snippet.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/order_summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/payment.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/product.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/request_refund.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/scripts.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/socialaccount/authentication_error.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/socialaccount/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/socialaccount/connections.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/socialaccount/login_cancelled.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/socialaccount/messages/account_connected.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/socialaccount/messages/account_connected_other.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/socialaccount/messages/account_disconnected.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/socialaccount/signup.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/socialaccount/snippets/login_extra.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/socialaccount/snippets/provider_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/thumbnail.png" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="Sacred Projects">
+      <favorite_root url="file://$PROJECT_DIR$/django-ecommerce-master/requirements.txt" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+    </favorites_list>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="138" lean-forward="true" selection-start-line="138" selection-end-line="138" />
+              <folding>
+                <element signature="e#0#46#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0006_auto_20200322_2011.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0002_auto_20200321_0127.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0001_initial.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/django-ecommerce-master/djecommerce/settings/__init__.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/django-ecommerce-master/djecommerce/settings/base.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/django-ecommerce-master/.gitignore">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/django-ecommerce-master/.env">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0004_auto_20200322_0950.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0003_auto_20200322_0946.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>categor</find>
+      <find>catego</find>
+      <find>category</find>
+      <find>cat</find>
+      <find>href=#</find>
+      <find>form</find>
+      <find>render</find>
+      <find>stat</find>
+      <find>static</find>
+      <find>return</find>
+      <find>auth</find>
+      <find>paymen</find>
+      <find>price</find>
+      <find>payme</find>
+      <find>payment</find>
+      <find>checkout</find>
+      <find>order</find>
+      <find>order_summ</find>
+      <find>refun</find>
+      <find>refund</find>
+      <find>summ</find>
+      <find>coup</find>
+      <find>date</find>
+      <find>coupon</find>
+      <find>p</find>
+      <find>for</find>
+      <find>link</find>
+      <find>button</find>
+      <find>row</find>
+      <find>div</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="WARN_ABOUT_DETACHED_HEAD" value="false" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/django-ecommerce-master/templates/payment.html" />
+        <option value="$PROJECT_DIR$/django-ecommerce-master/templates/product.html" />
+        <option value="$PROJECT_DIR$/django-ecommerce-master/templates/navbar.html" />
+        <option value="$PROJECT_DIR$/django-ecommerce-master/tsecommerce/urls.py" />
+        <option value="$PROJECT_DIR$/django-ecommerce-master/requirements.txt" />
+        <option value="$PROJECT_DIR$/django-ecommerce-master/tsecommerce/settings/base.py" />
+        <option value="$PROJECT_DIR$/django-ecommerce-master/core/admin.py" />
+        <option value="$PROJECT_DIR$/django-ecommerce-master/core/urls.py" />
+        <option value="$PROJECT_DIR$/django-ecommerce-master/core/forms.py" />
+        <option value="$PROJECT_DIR$/django-ecommerce-master/core/models.py" />
+        <option value="$PROJECT_DIR$/django-ecommerce-master/core/views.py" />
+        <option value="$PROJECT_DIR$/django-ecommerce-master/templates/base.html" />
+        <option value="$PROJECT_DIR$/django-ecommerce-master/templates/home.html" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1065" />
+    <option name="height" value="822" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="ts2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ts2" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ts2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ts2" type="462c0819:PsiDirectoryNode" />
+              <item name="django-ecommerce-master" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ts2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ts2" type="462c0819:PsiDirectoryNode" />
+              <item name="django-ecommerce-master" type="462c0819:PsiDirectoryNode" />
+              <item name=".vscode" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ts2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ts2" type="462c0819:PsiDirectoryNode" />
+              <item name="django-ecommerce-master" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ts2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ts2" type="462c0819:PsiDirectoryNode" />
+              <item name="django-ecommerce-master" type="462c0819:PsiDirectoryNode" />
+              <item name="djecommerce" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ts2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ts2" type="462c0819:PsiDirectoryNode" />
+              <item name="django-ecommerce-master" type="462c0819:PsiDirectoryNode" />
+              <item name="djecommerce" type="462c0819:PsiDirectoryNode" />
+              <item name="settings" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ts2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ts2" type="462c0819:PsiDirectoryNode" />
+              <item name="django-ecommerce-master" type="462c0819:PsiDirectoryNode" />
+              <item name="static_in_env" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ts2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+            <path>
+              <item name="ts2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/django-ecommerce-master" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c12c2955-d377-4be7-b38c-ce9f9434c49c" name="Default Changelist" comment="" />
+      <created>1584220679377</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584220679377</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1065" height="822" extended-state="0" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3697318" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32739726" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.28219178" />
+      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25191572" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32789117" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.28219178" />
+      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout-to-restore>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/tests.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/ts2/lib/python3.7/site-packages/django/core/management/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1095">
+          <caret line="82" selection-start-line="82" selection-end-line="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/ts2/lib/python3.7/site-packages/django/utils/dateparse.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1050">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="32" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/djecommerce/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="32" selection-start-column="32" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="449">
+          <caret line="57" selection-start-line="57" selection-end-line="57" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0010_order_pickup_date.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0008_auto_20200322_2108.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0005_auto_20200322_2006.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0009_remove_order_pickup_day.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0011_order_coupon.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/modules/animations-extended.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4005">
+          <caret line="267" column="6" lean-forward="true" selection-start-line="267" selection-start-column="6" selection-end-line="267" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/addons/datatables.min.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/addons/datatables-select.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/addons/datatables-select.min.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/addons/directives.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/addons/directives.min.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/modules/animations-extended.min.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/bootstrap.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-428" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/templates/payment.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1087">
+          <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/style.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/style.min.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="5" column="1371" lean-forward="true" selection-start-line="5" selection-start-column="1371" selection-end-line="5" selection-end-column="1371" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/templates/order_snippet.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/templates/navbar.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/templates/openid/base.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/templates/scripts.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/templates/request_refund.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/templates/product.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-409" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="63" column="23" lean-forward="true" selection-start-line="63" selection-start-column="23" selection-end-line="63" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/templates/socialaccount/base.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/templates/checkout.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/templates/footer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="94">
+          <caret line="26" column="14" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/mdb.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-903" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/mdb.lite.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8433" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/mdb.lite.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="25" column="945" lean-forward="true" selection-start-line="25" selection-start-column="945" selection-end-line="25" selection-end-column="945" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/mdb.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-11149">
+          <caret line="37" column="513" lean-forward="true" selection-start-line="37" selection-start-column="513" selection-end-line="37" selection-end-column="513" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/templates/home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="17" selection-start-line="17" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/media_root/no-image-available-icon-template-260nw-1036735678.jpg_gsZfaMC.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0007_auto_20200322_2107.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0006_auto_20200322_2011.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0004_auto_20200322_0950.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0003_auto_20200322_0946.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0002_auto_20200321_0127.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/migrations/0001_initial.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/djecommerce/settings/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/djecommerce/settings/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="138" lean-forward="true" selection-start-line="138" selection-end-line="138" />
+          <folding>
+            <element signature="e#0#46#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
