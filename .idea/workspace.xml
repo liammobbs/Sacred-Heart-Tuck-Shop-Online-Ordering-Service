@@ -1,27 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c12c2955-d377-4be7-b38c-ce9f9434c49c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/core/templatetags/custom_tags.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/css/custom.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/static_in_env/img/Sacred-Heart-Logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/menubar.html" afterDir="false" />
+    <list default="true" id="c12c2955-d377-4be7-b38c-ce9f9434c49c" name="Default Changelist" comment="19 may, UI mostly finished">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/.vscode/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/core/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/core/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/core/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/core/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/core/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/core/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/core/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/core/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/core/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/djecommerce/settings/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/djecommerce/settings/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/templates/checkout.html" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/checkout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/navbar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/templates/order_snippet.html" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/order_snippet.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/templates/order_summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/order_summary.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django-ecommerce-master/templates/scripts.html" beforeDir="false" afterPath="$PROJECT_DIR$/django-ecommerce-master/templates/scripts.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -74,11 +55,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="29" column="56" selection-start-line="29" selection-start-column="56" selection-end-line="29" selection-end-column="56" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="81">
+              <caret line="17" column="23" lean-forward="true" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -400,6 +378,14 @@
       <option name="presentableId" value="Default" />
       <updated>1584220679377</updated>
     </task>
+    <task id="LOCAL-00001" summary="19 may, UI mostly finished">
+      <created>1589844707099</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1589844707099</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView">
@@ -414,7 +400,7 @@
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1089" height="822" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4936479" visible="true" weight="0.25468165" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4936479" visible="true" weight="0.25468165" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.50635207" side_tool="true" weight="0.34343433" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -424,9 +410,9 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32876712" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32876712" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.32876712" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.23287672" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.23287672" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32876712" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -478,9 +464,25 @@
         </entry>
       </map>
     </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="master" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="19 may, UI mostly finished" />
+    <option name="LAST_COMMIT_MESSAGE" value="19 may, UI mostly finished" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -801,11 +803,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/django-ecommerce-master/core/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="29" column="56" selection-start-line="29" selection-start-column="56" selection-end-line="29" selection-end-column="56" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="81">
+          <caret line="17" column="23" lean-forward="true" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
         </state>
       </provider>
     </entry>
