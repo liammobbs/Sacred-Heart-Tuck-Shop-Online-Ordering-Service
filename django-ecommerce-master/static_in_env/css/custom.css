@@ -1,0 +1,56 @@
+.custom-sticky {
+    position:-webkit-sticky;
+    position:sticky;
+    top:0;
+    z-index:1020;
+}
+
+nav.nav-1{
+    background-color:SteelBlue;
+    border-bottom-style:solid;
+    border-color:Crimson;
+    border-width:3px;
+}
+
+.custom-fixed {
+  overflow: hidden;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+}
+
+.main-content{
+    overflow:hidden;
+    right:0;
+    left:0;
+    z-index:1030;
+}
+
+div.scroll-frame{
+    margin:4px, 4px;
+    padding:4px;
+    width: 100%;
+    height: 70vh;
+}
+
+div.scroll{
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align:justify;
+}
+
+.landing-wrapper {
+    height: 100%;
+}
+
+.landing {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+}
+
+.custom-footer{
+  bottom: 0px;
+  background-color: red;
+
+}

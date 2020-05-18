@@ -1,11 +1,10 @@
 from django import forms
-from django_countries.fields import CountryField
-from django_countries.widgets import CountrySelectWidget
-
+from django.forms import ModelForm
+from .models import Order
 
 PAYMENT_CHOICES = (
-    ('B', 'Credit/Debit'),
-    ('C', 'Cash')
+    ('B', 'Pay with Card (Credit/Debit)'),
+    ('C', 'Pay with Cash at Tuck Shop')
 )
 
 BREAK_CHOICES =(
@@ -13,43 +12,11 @@ BREAK_CHOICES =(
     'L', 'Lunch'
 )
 
-class CheckoutForm(forms.Form):
-    pickup_date = forms.DateField(
-        input_formats=['%d/%m/%Y'],
-        widget=forms.DateTimeInput(attrs={
-            'class': 'form-control datetimepicker-input',
-            'data-target': '#datetimepicker1'
-        })
-    )
-    break_choice = forms.MultipleChoiceField(choices=BREAK_CHOICES)
-
-# class CheckoutForm(forms.Form):
-#     shipping_address = forms.CharField(required=False)
-#     shipping_address2 = forms.CharField(required=False)
-#     shipping_country = CountryField(blank_label='(select country)').formfield(
-#         required=False,
-#         widget=CountrySelectWidget(attrs={
-#             'class': 'custom-select d-block w-100',
-#         }))
-#     shipping_zip = forms.CharField(required=False)
-#
-#     billing_address = forms.CharField(required=False)
-#     billing_address2 = forms.CharField(required=False)
-#     billing_country = CountryField(blank_label='(select country)').formfield(
-#         required=False,
-#         widget=CountrySelectWidget(attrs={
-#             'class': 'custom-select d-block w-100',
-#         }))
-#     billing_zip = forms.CharField(required=False)
-#
-#     same_billing_address = forms.BooleanField(required=False)
-#     set_default_shipping = forms.BooleanField(required=False)
-#     use_default_shipping = forms.BooleanField(required=False)
-#     set_default_billing = forms.BooleanField(required=False)
-#     use_default_billing = forms.BooleanField(required=False)
-#
-#     payment_option = forms.ChoiceField(
-#         widget=forms.RadioSelect, choices=PAYMENT_CHOICES)
+class CheckoutForm(ModelForm):
+    class Meta:
+        model = Order
+        fields = ('break_choice',
+                  'payment_option')
 
 
 class CouponForm(forms.Form):
