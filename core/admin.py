@@ -60,6 +60,20 @@ class OrderItemAdmin(admin.ModelAdmin):
                     'quantity',
                     'ordered',
     ]
+class UserProfileAdmin(admin.ModelAdmin):
+    fields=['userid',
+                       'firstname',
+                       'lastname',
+                       'user_email']
+    readonly_fields = ['userid',
+                       'firstname',
+                       'lastname',
+                       'user_email']
+    list_display = ['userid',
+                       'firstname',
+                       'lastname',
+                       'user_email']
+
 
 admin.site.register(Item, ItemAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
@@ -68,4 +82,4 @@ admin.site.register(Order, OrderAdmin)
 # admin.site.register(Coupon)
 # admin.site.register(Refund)
 # admin.site.register(Address, AddressAdmin)
-admin.site.register(UserProfile)
+admin.site.register(UserProfile, UserProfileAdmin)

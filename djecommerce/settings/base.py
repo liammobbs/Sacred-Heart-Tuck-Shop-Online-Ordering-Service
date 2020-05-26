@@ -18,10 +18,12 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'crispy_forms',
     'django_countries',
 
-    'core'
+    # My Apps
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -78,6 +80,17 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+AUTH_PROFILE_MODULE = 'core.UserProfile'
 # CRISPY FORMS
-
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

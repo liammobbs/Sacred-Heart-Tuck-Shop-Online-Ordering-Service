@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models import Sum
 from django.shortcuts import reverse
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 # from django_countries.fields import CountryField
 from django.utils import timezone
 import datetime
@@ -40,13 +41,24 @@ PAYMENT_CHOICES = (
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    stripe_customer_id = models.CharField(max_length=50, blank=True, null=True)
-    one_click_purchasing = models.BooleanField(default=False)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    userid =models.CharField(default=user, max_length=100)
+    firstname=models.CharField(default='', max_length=100)
+    lastname=models.CharField(default='', max_length=100)
+    user_email = models.CharField(default='', max_length=100)
 
     def __str__(self):
         return self.user.username
+
+    def save(self , *args , **kwargs):
+        self.userid= self.user.email.split("@")[0]
+        email_address = self.user.email
+        self.user_email = email_address
+        self.firstname= self.user.first_name
+        self.lastname= self.user.last_name
+        super().save(*args , **kwargs)
+
+
 
 
 class Item(models.Model):
@@ -56,7 +68,7 @@ class Item(models.Model):
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
     slug = models.SlugField(default='', editable=False)
     description = models.TextField(blank = True, null = True)
-    image = models.ImageField(upload_to='images/', default='static/img/no-image-available-icon-template-260nw-1036735678.jpg.png')
+    image = models.ImageField(upload_to='media/images/', default='static/img/no-image-available-icon-template-260nw-1036735678.jpg.png')
 
     def __str__(self):
         return self.title
@@ -115,10 +127,10 @@ class Order(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField(auto_now_add=True)
     ordered = models.BooleanField(default=False)
-    pickup_date = models.DateField("Date" , default=datetime.date.today)
+    pickup_date = models.DateField("Pickup Date", default=datetime.date.today)
     break_choice = models.CharField(choices=BREAK_CHOICES, default='T', max_length=20)
-    payment_option = models.CharField(max_length=20, choices= PAYMENT_CHOICES, default='B')
-    order_total = models.DecimalField(decimal_places=2 , max_digits=4, default = 0.00)
+    payment_option = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='B')
+    order_total = models.DecimalField(decimal_places=2 , max_digits=4, default=0.00)
     coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, blank=True, null=True)
 
     '''
@@ -126,12 +138,17 @@ class Order(models.Model):
     2. Add pickup date
     3. add pickup time
     '''
-    # def order_window(self):
-    #     if datetime.time < 9:
-    #         self.current_window = datetime.date.today
-    #     elif datetime.time > 9:
-    #         self.current_window = datetime.date.today + 1
-
+    def getorder_window(self, *args , **kwargs):
+        cuttime=datetime.datetime
+        cuttime.date=datetime.date.today()
+        cuttime.time(9)
+        now = datetime.datetime.now()
+        if now <= cuttime:
+            order_window=datetime.date.today()
+        elif now > cuttime:
+            order_window=datetime.date.today() + datetime.timedelta(days=1)
+        self.pickup_date=order_window
+        super().save(*args , **kwargs)
 
     def __str__(self):
         return self.user.username
