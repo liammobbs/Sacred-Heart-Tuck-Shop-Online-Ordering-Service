@@ -49,15 +49,13 @@
 </head>
 
 <body>
-    <div class="main-content sticky-top">
-        <div>
-            <!-- primary navbar -->
-            {% include "navbar.html" %}
-        </div>
+    <div class="sticky-top mb-4">
+        <!-- primary navbar -->
+        {% include "navbar.html" %}
         <div>
         {% if messages %}
             {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-1" role="alert">
               {{ message }}
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -67,6 +65,7 @@
         {% endif %}
         </div>
     </div>
+
 
     {% block content %}
         <!-- base (main content) -->

@@ -1,7 +1,8 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save , pre_save
 from django.conf import settings
 from django.db import models
 from django.db.models import Sum
+from django.dispatch import receiver
 from django.shortcuts import reverse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
@@ -9,19 +10,12 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 import datetime
 
-
 CATEGORY_CHOICES = (
     ('HF', 'Hot Food'),
     ('CF', 'Cold Food'),
     ('S', 'Snacks'),
     ('F', 'Frozen'),
     ('D', 'Drink'),
-)
-
-LABEL_CHOICES = (
-    ('P', 'primary'),
-    ('S', 'secondary'),
-    ('D', 'danger')
 )
 
 BREAK_CHOICES =(
@@ -34,24 +28,20 @@ PAYMENT_CHOICES = (
     ('C', 'Pay with Cash at Tuck Shop')
 )
 
-# ADDRESS_CHOICES = (
-#     ('B', 'Billing'),
-#     ('S', 'Shipping'),
-# )
-
+class Closed_Dates(models.Model):
+    closed_dates= models.DateField()
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    userid =models.CharField(default=user, max_length=100)
-    firstname=models.CharField(default='', max_length=100)
-    lastname=models.CharField(default='', max_length=100)
+    firstname = models.CharField(default='', max_length=100)
+    lastname = models.CharField(default='', max_length=100)
     user_email = models.CharField(default='', max_length=100)
+    balance = models.DecimalField(decimal_places=2, max_digits=5, default=0.00, blank=False, null=False)
 
     def __str__(self):
         return self.user.username
 
     def save(self , *args , **kwargs):
-        self.userid= self.user.email.split("@")[0]
         email_address = self.user.email
         self.user_email = email_address
         self.firstname= self.user.first_name
@@ -60,15 +50,30 @@ class UserProfile(models.Model):
 
 
 
+def userprofile_receiver(sender, instance, created, *args, **kwargs):
+    if created:
+        userprofile = UserProfile.objects.create(user=instance)
+
+
+post_save.connect(userprofile_receiver, sender=settings.AUTH_USER_MODEL)
+
+@receiver(pre_save, sender=User)
+def update_username_from_email(sender, instance, **kwargs):
+    if instance.email != '':
+        user_email = instance.email
+        username = user_email[:30].split("@")[0]
+
+        instance.username = username
+
 
 class Item(models.Model):
     title = models.CharField(max_length=100)
-    price = models.DecimalField(decimal_places=2, max_digits=4)
+    price = models.DecimalField(decimal_places=2, max_digits=4, blank=False, null=False)
     discount_price = models.DecimalField(decimal_places=2,blank=True, null=True, max_digits=4)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
     slug = models.SlugField(default='', editable=False)
     description = models.TextField(blank = True, null = True)
-    image = models.ImageField(upload_to='media/images/', default='static/img/no-image-available-icon-template-260nw-1036735678.jpg.png')
+    image = models.ImageField(upload_to='media/images/', default='media/images/no-image-available-icon-template-260nw-1036735678.jpg_xctPfVt.png')
 
     def __str__(self):
         return self.title
@@ -120,17 +125,16 @@ class OrderItem(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     ref_code = models.CharField(max_length=20, blank=True, null=True)
-    items = models.ManyToManyField(OrderItem)
+    items = models.ManyToManyField(OrderItem, related_name='orderitem')
     start_date = models.DateTimeField(auto_now_add=True)
-    ordered_date = models.DateTimeField(auto_now_add=True)
+    order_date = models.DateTimeField(auto_now_add=True)
     ordered = models.BooleanField(default=False)
     pickup_date = models.DateField("Pickup Date", default=datetime.date.today)
     break_choice = models.CharField(choices=BREAK_CHOICES, default='T', max_length=20)
     payment_option = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='B')
-    order_total = models.DecimalField(decimal_places=2 , max_digits=4, default=0.00)
+    order_total = models.DecimalField(decimal_places=2 , max_digits=5, default=0.00)
     coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, blank=True, null=True)
 
     '''
@@ -138,17 +142,16 @@ class Order(models.Model):
     2. Add pickup date
     3. add pickup time
     '''
-    def getorder_window(self, *args , **kwargs):
-        cuttime=datetime.datetime
-        cuttime.date=datetime.date.today()
-        cuttime.time(9)
-        now = datetime.datetime.now()
+    def set_window(self):
+        current_window = datetime.date.today()
+        next_window = order_window = datetime.date.today() + datetime.timedelta(days=1)
+        cuttime=datetime.time(hour=9, minute=0, second=0, microsecond=0)
+        now = datetime.datetime.now().time()
         if now <= cuttime:
-            order_window=datetime.date.today()
+            order_window=current_window
         elif now > cuttime:
-            order_window=datetime.date.today() + datetime.timedelta(days=1)
-        self.pickup_date=order_window
-        super().save(*args , **kwargs)
+            order_window=next_window
+        self.pickup_date = order_window
 
     def __str__(self):
         return self.user.username
@@ -159,9 +162,20 @@ class Order(models.Model):
             total += order_item.get_final_price()
         if self.coupon:
             total -= self.coupon.amount
+        self.order_total=total
         return total
 
+    def get_add_order_to_cart_url(self):
+        return reverse("core:add-order-to-cart", kwargs={
+            'ref_code': self.ref_code
+        })
 
+class NetOrders(models.Model):
+    class Meta:
+        verbose_name = 'Net Orders'
+        verbose_name_plural = 'Net Orders'
+    date = models.DateField()
+    net_item = models.ManyToManyField(OrderItem, related_name='netitems')
 
 class Coupon(models.Model):
     code = models.CharField(max_length=15)
@@ -170,9 +184,3 @@ class Coupon(models.Model):
     def __str__(self):
         return self.code
 
-def userprofile_receiver(sender, instance, created, *args, **kwargs):
-    if created:
-        userprofile = UserProfile.objects.create(user=instance)
-
-
-post_save.connect(userprofile_receiver, sender=settings.AUTH_USER_MODEL)

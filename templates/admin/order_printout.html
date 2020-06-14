@@ -10,67 +10,99 @@
   {% block extra_head %}
   {% endblock %}
 
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
-  <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
-  <link href="{% static 'css/table.css' %}" rel="stylesheet">
-
-
   <style type="text/css">
-    html,
-    body,
-    header,
-    .carousel {
-      height: 60vh;
+
+    @page {
+    size: A4;
+    margin: 1cm;
+        }
+
+    body{
+      margin-top: 20px;
+      margin-bottom: 50px;
+      margin-right: 50px;
+      margin-left: 50px;
     }
 
-    @media (max-width: 740px) {
-
-      html,
-      body,
-      header,
-      .carousel {
-        height: 100vh;
-      }
+    table {
+      border-collapse: collapse;
     }
 
-    @media (min-width: 800px) and (max-width: 850px) {
+    td {
+      height: 30px;
+      vertical-align: center;
+    }
 
-      html,
-      body,
-      header,
-      .carousel {
-        height: 100vh;
-      }
+    th, td {
+      text-align: left;
+    }
+
+    th{
+        padding: 5px;
+        border: 1px solid black;
+    }
+
+    .quantity-column{
+        border: 1px solid black;
+    }
+
+    .item-column{
+        border: 1px solid black;
+
+    }
+
+    .user-column{
+    }
+
+    .item-quantity-column{
+    }
+
+    .name-column{
+    }
+
+    .item-quantity-table{
+    }
+
+    .base-table{
+      border: 1px solid black;
+    }
+
+    .text{
+        padding: 5px;
+    }
+
+    .full-border{
+        border: 1px solid black;
     }
 
   </style>
-    <h1>{{today.date}}</h1>
+  <h1>{{today.date}}</h1>
 </head>
+
 <body>
   <div class="align-items-center">
     <table class="base-table">
       <th>ID Number</th>
       <th>Reference Code</th>
       <th>Name</th>
-      <th>Item, Quantity</th>
-      {% for object in morning_tea %}
-        <tr>
-          <td class="user-column full-border text">{{object.user}}</td>
-          <td class="full-border text">{{object.ref_code}}</td>
-          <td class="name-column full-border text">{{object.user.first_name}} {{object.user.last_name}}</td>
-          <td class="item-quantity-column full-border">
-            <table class="item-quantity-table">
-              {% for item in object.items.all %}
-                <tr>
-                    <td class="item-column text">{{item.item}}</td>
-                    <td class="quantity-column text">{{item.quantity}}</td>
-                </tr>
-              {% endfor %}
-            </table>
-          </td>
-        </tr>
+      <th>item</th>
+
+      {% for object in queryset %}
+      <tr>
+        <td class="user-column full-border text">{{object.user}}</td>
+        <td class="full-border text">{{object.ref_code}}</td>
+        <td class="name-column full-border text">{{object.user.first_name}} {{object.user.last_name}}</td>
+        <td class="item-quantity-column full-border">
+          <table class="item-quantity-table">
+            {% for element in object.items.all %}
+              <tr>
+                  <td class="item-column text">{{element.item}}</td>
+                  <td class="quantity-column text">{{element.quantity}}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        </td>
+      </tr>
       {% endfor %}
     </table>
   </div>

@@ -3,21 +3,20 @@
 {% block content %}
 
   <main>
-    <div class="main-content mt-1">
+    <div class="main-content main-div">
       <div class="container">
           <!-- menubar is in here -->
           {% include "menubar.html" %}
       </div>
-
-      <div class="container scroll-frame scroll">
+      <div class="scroll-frame scroll container wow fadeIn">
 
         <!--Section: Products v.3-->
         <section class="text-center mb-1 container">
 
-          <div class="row wow fadeIn  ">
+          <div class="row">
 
             {% for object in object_list %}
-            <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
 
               <div class="card">
 
@@ -25,37 +24,37 @@
                   <img src="{{ object.image.url }}" class="card-img-top">
                 </div>
 
-                <div class="card-body h-1000 text-center">
-                  <a href="" class="grey-text">
-                    <h5>{{ object.get_category_display }}</h5>
-                  </a>
-                  <h5>
-                    <div>
-                      <strong class="text-break text-nowrap text-center">
+                <div class="card-body h-1000 align-items-center">
+                  <div class="mb-1">
+                    <h5 class="row" style="height:50px">
+                      <strong class="text-break text-left col-sm">
                         {{ object.title }}
                       </strong>
+                    </h5>
+                    <div class="row text-nowrap no-gutters">
+                      <div class="col-7">
+                        <h5 class="grey-text text-nowrap text-left">
+                          {{ object.get_category_display }}
+                        </h5>
+                      </div>
+                      <div class="col-5">
+                        <h5>
+                          <strong class="font-weight-bold text-nowrap blue-text text-right">
+                            {% if object.discount_price %}
+                            ${{ object.discount_price }}
+                            {% else %}
+                            ${{ object.price }}
+                            {% endif %}
+                          </strong>
+                        </h5>
+                      </div>
                     </div>
-                    <div>
-                      <strong class="font-weight-bold blue-text">$
-                        {% if object.discount_price %}
-                        {{ object.discount_price }}
-                        {% else %}
-                        {{ object.price }}
-                        {% endif %}
-                      </strong>
-                    </div>
-                  </h5>
-                  <h5>
-                    <strong>
-                      <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p waves-effect waves-light">Add to Cart
-                        <i class="fas fa-shopping-cart ml-1"></i>
-                      </a>
-                    </strong>
-                  </h5>
-
-                  <h4>
-
-                  </h4>
+                  </div>
+                  <strong>
+                    <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md btn-block my-0 p waves-effect waves-light">Add to Cart
+                      <i class="fas fa-shopping-cart ml-1"></i>
+                    </a>
+                  </strong>
 
                 </div>
 
@@ -64,10 +63,19 @@
             </div>
             {% endfor %}
           </div>
-          <!--Pagination-->
-          {% if is_paginated %}
-      <nav class="d-flex justify-content-center wow fadeIn mt-3">
-        <ul class="pagination pg-blue">
+
+        </section>
+        <!--Section: Products v.3-->
+      </div>
+
+    </div>
+
+  </main>
+  <!--Pagination-->
+  <footer>
+      {% if is_paginated %}
+      <nav class="d-flex justify-content-center fadeIn fixed-bottom pb-0 pt-0 mt-0 mb-0 bg-white">
+        <ul class="pagination pg-blue mb-1 mt-2">
 
           {% if page_obj.has_previous %}
           <li class="page-item">
@@ -95,11 +103,5 @@
         </ul>
       </nav>
       {% endif %}
-        </section>
-        <!--Section: Products v.3-->
-
-      </div>
-    </div>
-  </main>
-
+    </footer>
 {% endblock content %}

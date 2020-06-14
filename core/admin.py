@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Item, OrderItem, Order, UserProfile
+from .models import Item, OrderItem, Order, UserProfile, NetOrders
 
 
 # def make_refund_accepted(modeladmin, request, queryset):
@@ -17,21 +17,23 @@ class ItemAdmin(admin.ModelAdmin):
 class OrderAdmin(admin.ModelAdmin):
     fields = ['user',
               'ref_code',
+              'order_date' ,
               'pickup_date' ,
               'break_choice' ,
               'items',
               'order_total' ,
               'payment_option' ,
               'ordered' ,
+
               ]
     readonly_fields = ['user',
               'ref_code',
-              'pickup_date' ,
+              'order_date' ,
               'break_choice' ,
               'payment_option' ,
               'items',
               'order_total' ,
-              'ordered' ,]
+              ]
 
     list_display = ['user',
                     'pickup_date',
@@ -41,7 +43,8 @@ class OrderAdmin(admin.ModelAdmin):
                     'ordered',
 
                     ]
-    list_filter = ['pickup_date',]
+    list_filter = ['order_date',]
+
 
 class OrderItemAdmin(admin.ModelAdmin):
     fields = ['user' ,
@@ -59,21 +62,38 @@ class OrderItemAdmin(admin.ModelAdmin):
                     'item',
                     'quantity',
                     'ordered',
-    ]
-class UserProfileAdmin(admin.ModelAdmin):
-    fields=['userid',
-                       'firstname',
-                       'lastname',
-                       'user_email']
-    readonly_fields = ['userid',
-                       'firstname',
-                       'lastname',
-                       'user_email']
-    list_display = ['userid',
-                       'firstname',
-                       'lastname',
-                       'user_email']
+                    ]
 
+
+class UserProfileAdmin(admin.ModelAdmin):
+    fields=['user',
+           'firstname',
+           'lastname',
+           'user_email',
+            'balance'
+            ]
+    readonly_fields = ['user',
+                       'firstname',
+                       'lastname',
+                       'user_email'
+                       ]
+    list_display = ['user',
+                   'firstname',
+                   'lastname',
+                   'user_email'
+                    ]
+
+
+class NetOrdersAdmin(admin.ModelAdmin):
+    fields = ['date',
+              'net_item']
+
+    readonly_fields = [
+            'date',
+            'net_item'
+    ]
+
+    list_display = ['date']
 
 admin.site.register(Item, ItemAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
@@ -83,3 +103,4 @@ admin.site.register(Order, OrderAdmin)
 # admin.site.register(Refund)
 # admin.site.register(Address, AddressAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(NetOrders, NetOrdersAdmin)

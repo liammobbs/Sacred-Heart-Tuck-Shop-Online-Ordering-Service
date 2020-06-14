@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<main>
+    <div class="ml-5 mr-5">
+        <h1 class="">User: {{user.user}}</h1>
+        <h1 class="">Balance: ${{user.balance}}</h1>
+        <a class="btn btn-primary" href="topup">Top Up Account</a>
+
+        <h2 class="mt-5">Order History</h2>
+        <div class="table-responsive text-nowrap">
+            <table class="table table-sm table-condensed">
+                <th scope="col">Date</th>
+                <th scope="col">Reference Code</th>
+                <th scope="col">Item</th>
+                <th scope="col">Total</th>
+                <th scope="col">Repeat Order</th>
+
+                {% for object in orders %}
+                  <tr>
+                      <td class="">{{object.pickup_date}}</td>
+                      <td class="">{{object.ref_code}}</td>
+                      <td class="">
+                            <table class="">
+                                {% for element in object.items.all %}
+                                <tr>
+                                    <td>{{element.item}}</td>
+                                    <td>{{element.item.price}}</td>
+                                    <td>{{element.quantity}}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                      <td class="">{{object.order_total}}</td>
+                      <td>
+                          <a href="{{ object.get_add_order_to_cart_url }}" class="text-primary btn-link">Add Order To Cart</a>
+                      </td>
+
+
+                  </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+</main>
+
+{% endblock content %}

@@ -58,7 +58,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'djecommerce.wsgi.application'
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = "Pacific/Auckland"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -77,6 +77,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 )
+
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
@@ -91,6 +92,10 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {'prompt': 'select_account'}
+
+
 AUTH_PROFILE_MODULE = 'core.UserProfile'
 # CRISPY FORMS
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

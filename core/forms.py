@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Order
+from .models import Order, UserProfile
 
 PAYMENT_CHOICES = (
     ('B', 'Pay with Card (Credit/Debit)'),
@@ -11,6 +11,10 @@ BREAK_CHOICES =(
     'T', 'Morning Tea'
     'L', 'Lunch'
 )
+class TopupForm(ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('balance',)
 
 class CheckoutForm(ModelForm):
     class Meta:

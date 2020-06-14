@@ -1,10 +1,97 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>{% block head_title %}{% endblock %}</title>
+  {% block extra_head %}
+  {% endblock %}
+
+  <style type="text/css">
+
+    @page {
+    size: A4;
+    margin: 1cm;
+        }
+
+    body{
+      margin-top: 20px;
+      margin-bottom: 50px;
+      margin-right: 50px;
+      margin-left: 50px;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    td {
+      height: 30px;
+      vertical-align: center;
+    }
+
+    th, td {
+      text-align: left;
+    }
+
+    th{
+        padding: 5px;
+        border: 1px solid black;
+    }
+
+    .quantity-column{
+        border: 1px solid black;
+    }
+
+    .item-column{
+        border: 1px solid black;
+
+    }
+
+    .user-column{
+    }
+
+    .item-quantity-column{
+    }
+
+    .name-column{
+    }
+
+    .item-quantity-table{
+    }
+
+    .base-table{
+      border: 1px solid black;
+    }
+
+    .text{
+        padding: 5px;
+    }
+
+    .full-border{
+        border: 1px solid black;
+    }
+
+  </style>
+    <h1>{{today}}</h1>
 </head>
 <body>
-
+  <div class="">
+    <table class="">
+      <th>Item</th>
+      <th>Quantity</th>
+      {% for object in queryset %}
+        {% for element in object.net_item.all %}
+              <tr>
+                  <td class="item-column text">{{element.item}}</td>
+                  <td class="quantity-column text">{{element.quantity}}</td>
+              </tr>
+            {% endfor %}
+      {% endfor %}
+    </table>
+  </div>
 </body>
 </html>

@@ -1,6 +1,6 @@
 {% load custom_tags %}
 <!--Menubar-->
-    <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-4 mt-3 mb-4">
+    <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-4 mb-4">
 
       <!-- Navbar brand -->
       <span class="navbar-brand">Categories:</span>
@@ -22,27 +22,27 @@
             </a>
           </li>
           <li class="nav-item {% is_active request 'core:hot-food' %}">
-            <a class="nav-link" href="hot-food">Hot Food</a>
+            <a class="nav-link" href="/hot-food">Hot Food</a>
           </li>
           <li class="nav-item {% is_active request 'core:cold-food' %}">
-            <a class="nav-link" href="cold-food">Cold Food</a>
+            <a class="nav-link" href="/cold-food">Cold Food</a>
           </li>
           <li class="nav-item {% is_active request 'core:snacks' %}">
-            <a class="nav-link" href="snacks">Snacks</a>
+            <a class="nav-link" href="/snacks">Snacks</a>
           </li>
           <li class="nav-item {% is_active request 'core:frozen' %}">
-            <a class="nav-link" href="frozen">Frozen</a>
+            <a class="nav-link" href="/frozen">Frozen</a>
           </li>
           <li class="nav-item {% is_active request 'core:drinks' %}">
-            <a class="nav-link" href="drinks">Drinks</a>
+            <a class="nav-link" href="/drinks">Drinks</a>
           </li>
 
         </ul>
         <!-- Links -->
 
-        <form class="form-inline">
+        <form class="form-inline" method="GET" action="{% url 'core:search' %}">
           <div class="md-form my-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" name="q">
           </div>
         </form>
       </div>
