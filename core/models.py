@@ -24,19 +24,29 @@ BREAK_CHOICES =(
 )
 
 PAYMENT_CHOICES = (
-    ('B', 'Pay with Card (Credit/Debit)') ,
+    ('B', 'Pay with Card (Credit/Debit)'),
     ('C', 'Pay with Cash at Tuck Shop')
 )
 
-class Closed_Dates(models.Model):
-    closed_dates= models.DateField()
+# Date model
+class InputDates(models.Model):
+    input_dates = models.DateField()
+
+# Model for list of 'closed' dates
+class ClosedDates(models.Model):
+    closed_dates = models.ManyToManyField(InputDates)
+
+# Model for current window using closed dates to determine next open day
+# intending to use celery to update current window at 9am each day, this can be called and displayed also
+class CurrentWindow(models.Model):
+    order_window = models.DateField()
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     firstname = models.CharField(default='', max_length=100)
     lastname = models.CharField(default='', max_length=100)
     user_email = models.CharField(default='', max_length=100)
-    balance = models.DecimalField(decimal_places=2, max_digits=5, default=0.00, blank=False, null=False)
 
     def __str__(self):
         return self.user.username
@@ -135,7 +145,7 @@ class Order(models.Model):
     break_choice = models.CharField(choices=BREAK_CHOICES, default='T', max_length=20)
     payment_option = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='B')
     order_total = models.DecimalField(decimal_places=2 , max_digits=5, default=0.00)
-    coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, blank=True, null=True)
+    # coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, blank=True, null=True)
 
     '''
     1. Item added to cart
@@ -160,9 +170,9 @@ class Order(models.Model):
         total = 0
         for order_item in self.items.all():
             total += order_item.get_final_price()
-        if self.coupon:
-            total -= self.coupon.amount
-        self.order_total=total
+        # if self.coupon:
+        #     total -= self.coupon.amount
+        # self.order_total=total
         return total
 
     def get_add_order_to_cart_url(self):
@@ -177,10 +187,10 @@ class NetOrders(models.Model):
     date = models.DateField()
     net_item = models.ManyToManyField(OrderItem, related_name='netitems')
 
-class Coupon(models.Model):
-    code = models.CharField(max_length=15)
-    amount = models.FloatField()
-
-    def __str__(self):
-        return self.code
-
+# class Coupon(models.Model):
+#     code = models.CharField(max_length=15)
+#     amount = models.FloatField()
+#
+#     def __str__(self):
+#         return self.code
+#
