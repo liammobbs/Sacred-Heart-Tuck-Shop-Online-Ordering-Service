@@ -136,22 +136,23 @@ class Item(models.Model):
 
 class ItemVariation(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    title = models.CharField(max_length=12) # e.g. flavour or volume (for drinks)
+    variation = models.CharField(max_length=12) # e.g. flavour or volume (for drinks)
     price = models.DecimalField("Price (if different from base price)", decimal_places=2, max_digits=4, null=True, blank=True)
     image = models.ImageField(upload_to='media/images/' ,
                               default='media/images/no-image-available-icon-template-260nw-1036735678.jpg_xctPfVt.png')
-    slug = models.SlugField(default='', editable=False)
+    slug = models.SlugField(default='')
 
     class Meta:
         unique_together = (
-            'title', 'price'
+            'variation', 'price'
         )
 
     def __str__(self):
-        return self.item.title + ' (' + self.title + ')'
+        return self.item.title + ' (' + self.variation + ')'
+
 
     def save(self , *args , **kwargs):
-        value = (self.item.title + '-' + self.title)
+        value = (self.item.title + '-' + self.variation)
         self.slug = slugify(value , allow_unicode=True)
         if self.price is None:
             self.price = self.item.price
@@ -162,11 +163,28 @@ class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    title = models.CharField(default='', max_length=20)
+    price = models.DecimalField(default=0.00, decimal_places=2 , max_digits=4)
+    slug = models.SlugField(default='')
+
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True, blank=True)
+    item_variations = models.ForeignKey(ItemVariation, on_delete=models.CASCADE, null=True)
+    # item_variations_exist = models.BooleanField(default=False)
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return f"{self.quantity} of {self.item.title}"
+        return f"{self.quantity} of {self.title}"
+
+    def save(self, *args, **kwargs):
+        if self.item_variations:
+            self.title = str(self.item.title + ' (' + self.item_variations.variation + ')')
+            self.price = self.item_variations.price
+            self.slug = self.item_variations.slug
+        else:
+            self.title = self.item.title
+            self.price = self.item.price
+            self.slug = self.item.slug
+        super().save(*args , **kwargs)
 
     def get_total_item_price(self):
         return self.quantity * self.item.price

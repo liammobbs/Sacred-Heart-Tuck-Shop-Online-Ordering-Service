@@ -49,18 +49,18 @@ class OrderAdmin(admin.ModelAdmin):
 
 class OrderItemAdmin(admin.ModelAdmin):
     fields = ['user' ,
-              'item' ,
+              'title',
               'quantity' ,
               'ordered' ,
               ]
 
     readonly_fields = ['user' ,
-                       'item' ,
+                       'title',
                        'quantity' ,
                        'ordered' ,
                        ]
     list_display = ['user' ,
-                    'item' ,
+                    'title' ,
                     'quantity' ,
                     'ordered' ,
                     ]
@@ -132,7 +132,7 @@ class ItemAdmin(admin.ModelAdmin):
 
 admin.site.site_header = "Sacred Heart Tuck Shop Admin"
 admin.site.register(Item , ItemAdmin)
-# admin.site.register(OrderItem, OrderItemAdmin)
+admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(Order , OrderAdmin)
 # admin.site.register(Payment)
 # admin.site.register(Coupon)

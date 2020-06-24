@@ -306,45 +306,54 @@ def add_order_to_cart(request, ref_code):
 
 @login_required
 def add_to_cart(request, slug):
+    try:
+        variation_item = ItemVariation.objects.get(slug=slug)
+        item = variation_item.item
+        order_item, created = OrderItem.objects.get_or_create(
+            item=item,
+            user=request.user,
+            item_variations=variation_item,
+            ordered=False
+        )
 
-    item = get_object_or_404(Item, slug=slug)
-    order_item, created = OrderItem.objects.get_or_create(
-        item=item,
-        user=request.user,
-        ordered=False
-    )
+    except ObjectDoesNotExist:
+        item = get_object_or_404(Item, slug=slug)
+        order_item, created = OrderItem.objects.get_or_create(
+            item=item,
+            user=request.user,
+            ordered=False
+        )
+
     order_qs = Order.objects.filter(user=request.user, ordered=False)
+
     if order_qs.exists():
         order = order_qs[0]
         # check if the order item is in the order
-        if order.items.filter(item__slug=item.slug).exists():
+        if order.items.filter(slug=slug).exists(): # problematic statement as there are seperate slugs for variations and items
             if order_item.quantity < order_item.item.maximum_quantity:
                 order_item.quantity += 1
                 order_item.save()
-                messages.info(request, "This item quantity was updated.")
+                messages.info(request , "This item quantity was updated.")
                 return redirect("core:order-summary")
             else:
-                messages.info(request, "Maximum Quantity Reached")
+                messages.info(request , "Maximum Quantity Reached")
                 return redirect("core:order-summary")
         else:
             order.items.add(order_item)
-            messages.info(request, "This item was added to your cart.")
+            messages.info(request , "This item was added to your cart.")
             return redirect("core:order-summary")
     else:
         order_date = timezone.now()
         order = Order.objects.create(
-            user=request.user, order_date=order_date)
+            user=request.user , order_date=order_date)
         order.items.add(order_item)
-        messages.info(request, "This item was added to your cart.")
+        messages.info(request , "This item was added to your cart.")
         return redirect("core:order-summary")
 
 
 @login_required
 def remove_from_cart(request, slug):
-    try:
-        item = ItemVariation.objects.get(slug=slug)
-    except ObjectDoesNotExist:
-        item = get_object_or_404(Item , slug=slug)
+
     order_qs = Order.objects.filter(
         user=request.user,
         ordered=False
@@ -352,9 +361,9 @@ def remove_from_cart(request, slug):
     if order_qs.exists():
         order = order_qs[0]
         # check if the order item is in the order
-        if order.items.filter(item__slug=item.slug).exists():
+        if order.items.filter(slug=slug).exists():
             order_item = OrderItem.objects.filter(
-                item=item,
+                slug=slug,
                 user=request.user,
                 ordered=False
             )[0]
@@ -372,7 +381,6 @@ def remove_from_cart(request, slug):
 
 @login_required
 def remove_single_item_from_cart(request, slug):
-    item = get_object_or_404(Item, slug=slug)
     order_qs = Order.objects.filter(
         user=request.user,
         ordered=False
@@ -380,19 +388,22 @@ def remove_single_item_from_cart(request, slug):
     if order_qs.exists():
         order = order_qs[0]
         # check if the order item is in the order
-        if order.items.filter(item__slug=item.slug).exists():
+        if order.items.filter(slug=slug).exists():
             order_item = OrderItem.objects.filter(
-                item=item,
+                slug=slug,
                 user=request.user,
                 ordered=False
             )[0]
             if order_item.quantity > 1:
                 order_item.quantity -= 1
                 order_item.save()
+                messages.info(request , "This item quantity was updated.")
+                return redirect("core:order-summary")
             else:
                 order.items.remove(order_item)
-            messages.info(request, "This item quantity was updated.")
-            return redirect("core:order-summary")
+                messages.info(request , "This item was removed from your cart.")
+                return redirect("core:order-summary")
+
         else:
             messages.info(request, "This item was not in your cart")
             return redirect("core:product", slug=slug)
@@ -439,8 +450,8 @@ class MorningOrderPrintout(View):
         pickup_date = datetime.date.today()
         queryset = Order.objects.filter(pickup_date=pickup_date,
                                         break_choice='T',
-                                        ordered ="True"
-                                        )
+                                        ordered="True"
+                                        ).order_by('user')
 
         params = {
             'queryset': queryset,
@@ -457,8 +468,7 @@ class LunchOrderPrintout(View):
         queryset = Order.objects.filter(pickup_date=pickup_date,
                                         break_choice='L',
                                         ordered='True'
-                                        )
-
+                                        ).order_by('user')
         params = {
             'queryset': queryset,
             'today': pickup_date,
