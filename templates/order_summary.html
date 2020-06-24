@@ -62,7 +62,7 @@
                 </tr>
                 <tr>
                     <td colspan="5">
-                    <a class='btn btn-warning float-right ml-2' href='/checkout/'>Proceed to checkout</a>
+                    {% if status == True %}<a class='btn btn-warning float-right ml-2'  href='/checkout/'  >Proceed to checkout</a>{% endif %}
                     <a class='btn btn-primary float-right' href='/'>Continue shopping</a>
                     </td>
                 </tr>

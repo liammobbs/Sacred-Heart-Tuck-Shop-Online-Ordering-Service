@@ -29,7 +29,6 @@
     }
 
     td {
-      height: 30px;
       vertical-align: center;
     }
 
@@ -75,35 +74,51 @@
         border: 1px solid black;
     }
 
+    .item-quantity-row{
+      height:30px;
+      width:300px;
+    }
+    thead {display: table-header-group;}
+    tfoot {display: table-header-group;}
+
   </style>
-  <h1>{{today.date}}</h1>
+
+  <h1>{{today}}</h1>
+  <h1>{{break}}: Packing Sheet</h1>
 </head>
 
 <body>
-  <div class="align-items-center">
+  <div class="">
     <table class="base-table">
-      <th>ID Number</th>
-      <th>Reference Code</th>
-      <th>Name</th>
-      <th>item</th>
-
-      {% for object in queryset %}
-      <tr>
-        <td class="user-column full-border text">{{object.user}}</td>
-        <td class="full-border text">{{object.ref_code}}</td>
-        <td class="name-column full-border text">{{object.user.first_name}} {{object.user.last_name}}</td>
-        <td class="item-quantity-column full-border">
-          <table class="item-quantity-table">
-            {% for element in object.items.all %}
-              <tr>
-                  <td class="item-column text">{{element.item}}</td>
-                  <td class="quantity-column text">{{element.quantity}}</td>
-              </tr>
-            {% endfor %}
-          </table>
-        </td>
-      </tr>
-      {% endfor %}
+      <thead>
+        <th>ID Number</th>
+        <th>Reference Code</th>
+        <th>Name</th>
+        <th>item</th>
+      </thead>
+      <tbody>
+        {% for object in queryset %}
+        <tr>
+          <td class="user-column full-border text">{{object.user}}</td>
+          <td class="full-border text">{{object.ref_code}}</td>
+          <td class="name-column full-border text">{{object.user.first_name}} {{object.user.last_name}}</td>
+          <td class="item-quantity-column full-border">
+            <table class="item-quantity-table">
+              {% for element in object.items.all %}
+                <tr class="item-quantity-row">
+                    <td class="item-column text">
+                      <h1>{{element.item}}</h1>
+                    </td>
+                    <td class="quantity-column text">
+                      <h1>{{element.quantity}}</h1>
+                    </td>
+                </tr>
+              {% endfor %}
+            </table>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
   </div>
 </body>

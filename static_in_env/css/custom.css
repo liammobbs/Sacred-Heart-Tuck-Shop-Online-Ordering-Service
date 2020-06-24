@@ -7,7 +7,7 @@ html, body {
 nav.nav-1{
     background-color:SteelBlue;
     border-bottom-style:solid;
-    border-color:Crimson;
+    border-color:#ED1C24;
     border-width:3px;
 }
 
@@ -32,6 +32,7 @@ div.scroll{
     -webkit-overflow-scrolling: touch;
     flex: auto;
     text-align:justify;
+    z-index:500
 }
 
 .landing-wrapper {
@@ -60,3 +61,10 @@ fixed{
     position: fixed;
 }
 
+.borderless td, .borderless th {
+    border: none;
+}
+
+.position-above {
+    z-index: 1030
+}

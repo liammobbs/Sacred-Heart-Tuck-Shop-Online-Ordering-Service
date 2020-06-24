@@ -1,0 +1,32 @@
+{% extends "admin/index.html" %}
+{% load static %}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/custom.css' %}" rel="stylesheet">
+
+
+{% block content %}
+    <div class="module">
+        <h2>Printout Actions</h2>
+        <ul class="actionlist">
+           <li>
+               <A  target="_blank" href="render/net-orders">Net Orders</A>
+           </li>
+           <li>
+               <A target="_blank" href="render/morning-orders">Morning Orders: Packing Sheet</A>
+           </li>
+           <li>
+               <A target="_blank" href="render/lunch-orders">Lunch Orders: Packing Sheet</A>
+           </li>
+       </ul>
+    </div>
+
+{{ block.super }}
+{% endblock %}
+
+{% block sidebar %}
+
+{{ block.super }}
+{% endblock %}

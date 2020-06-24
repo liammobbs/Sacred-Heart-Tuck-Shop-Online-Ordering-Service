@@ -1,7 +1,7 @@
 from .base import *
 
 DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.86.26', 'Liams-MacBook-Pro-4.local', '10.0.131.141', '10.0.129.98']
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.86.26', 'Liams-MacBook-Pro-4.local', '10.0.131.141', '10.0.129.98', '10.0.131.233']
 
 INSTALLED_APPS += [
     'debug_toolbar'

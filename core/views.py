@@ -46,23 +46,41 @@ def home_redirect(request):
 
 class CheckoutView(View):
     def get(self, *args, **kwargs):
-        try:
-            order = Order.objects.get(user=self.request.user, ordered=False)
-            order.set_window()
-            user = UserProfile.objects.get(user = self.request.user)
-            form = CheckoutForm()
-            context = {
-                'form': form,
-                # 'couponform': CouponForm(),
-                'order': order,
-                'user': user,
-                # 'DISPLAY_COUPON_FORM': True
-            }
+        time = CutoffTime.objects.get()
+        cuttime = time.cutoff
+        now = datetime.datetime.now().time()
+        today = datetime.date.today()
+        status_open = True
+        if now > cuttime or today.weekday() in (5, 6):
+            status_open = False
+        else:
+            try:
+                check = ClosedDate.objects.filter(closed_dates=today)
+                if check.exists():
+                    status_open = False
+            except ObjectDoesNotExist:
+                status_open = True
+                
+        if not status_open:
+            return redirect("core:order-summary")
+        else:
+            try:
+                order = Order.objects.get(user=self.request.user, ordered=False)
+                order.set_window()
+                user = UserProfile.objects.get(user = self.request.user)
+                form = CheckoutForm()
+                context = {
+                    'form': form,
+                    # 'couponform': CouponForm(),
+                    'order': order,
+                    'user': user,
+                    # 'DISPLAY_COUPON_FORM': True
+                }
 
-            return render(self.request, "checkout.html", context)
-        except ObjectDoesNotExist:
-            messages.info(self.request, "You do not have an active order")
-            return redirect("core:checkout")
+                return render(self.request, "checkout.html", context)
+            except ObjectDoesNotExist:
+                messages.info(self.request, "You do not have an active order")
+                return redirect("core:order-summary")
 
     def post(self, *args, **kwargs):
         form = CheckoutForm(self.request.POST or None)
@@ -147,13 +165,13 @@ class SearchView(TemplateView):
     def get_context_data(self, **kwargs):
         return super().get_context_data(object_list=self.object_list, **kwargs)
 
-    paginate_by = 10
+    paginate_by = 12
     template_name = 'home.html'
 
 
 class HomeView(ListView):
     model = Item
-    paginate_by = 10
+    paginate_by = 12
     template_name = "home.html"
 
 
@@ -161,11 +179,11 @@ class HotFoodView(ListView):
     model = Item
 
     def get_queryset(self):
-        queryset=Item.objects.filter(category='HF')
+        queryset = Item.objects.filter(category='HF')
         print(queryset)
         return queryset
 
-    paginate_by=10
+    paginate_by = 12
     template_name = "home.html"
 
 
@@ -177,7 +195,7 @@ class ColdFoodView(ListView):
         print(queryset)
         return queryset
 
-    paginate_by = 10
+    paginate_by = 12
     template_name = "home.html"
 
 
@@ -189,7 +207,7 @@ class SnacksView(ListView):
         print(queryset)
         return queryset
 
-    paginate_by = 10
+    paginate_by = 12
     template_name = "home.html"
 
 
@@ -201,7 +219,7 @@ class FrozenView(ListView):
         print(queryset)
         return queryset
 
-    paginate_by = 10
+    paginate_by = 12
     template_name = "home.html"
 
 class DrinksView(ListView):
@@ -212,7 +230,7 @@ class DrinksView(ListView):
         print(queryset)
         return queryset
 
-    paginate_by = 10
+    paginate_by = 12
     template_name = "home.html"
 
 
@@ -220,10 +238,33 @@ class OrderSummaryView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
+
+            time = CutoffTime.objects.get()
+            cuttime = time.cutoff
+            now = datetime.datetime.now().time()
+            today = datetime.date.today()
+
+            status_open = True
+            if now > cuttime or today.weekday() in (5 , 6):
+                status_open = False
+            else:
+                try:
+                    check = ClosedDate.objects.filter(closed_dates=today)
+                    if check.exists():
+                        status_open = False
+                except ObjectDoesNotExist:
+                    status_open = True
+
             context = {
-                'object': order
+                'object': order,
+                'status': status_open,
             }
+
+            if not status_open:
+                messages.warning(self.request , 'The Tuck Shop is currently closed. You can still add items to your cart to order when we reopen.')
+
             return render(self.request, 'order_summary.html', context)
+
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active order")
             return redirect("/")
@@ -237,15 +278,19 @@ class ItemDetailView(DetailView):
 def add_order_to_cart(request, ref_code):
     past_order = get_object_or_404(Order, ref_code=ref_code)
     order_qs = Order.objects.filter(user=request.user, ordered=False)
+
     if order_qs.exists():
         order_qs.delete()
 
     order_date = timezone.now()
     order = Order.objects.create(
-        user=request.user, order_date=order_date)
+        user=request.user,
+        order_date=order_date,
+        break_choice=past_order.break_choice
+    )
 
     for element in past_order.items.all():
-        item=element.item
+        item = element.item
         quantity=element.quantity
         order_item, created = OrderItem.objects.get_or_create(
             item=item,
@@ -255,12 +300,13 @@ def add_order_to_cart(request, ref_code):
         )
         order.items.add(order_item)
 
-    messages.info(request , "This item was added to your cart.")
+    messages.info(request , "This order was added to your cart.")
     return redirect("core:order-summary")
 
 
 @login_required
 def add_to_cart(request, slug):
+
     item = get_object_or_404(Item, slug=slug)
     order_item, created = OrderItem.objects.get_or_create(
         item=item,
@@ -272,10 +318,14 @@ def add_to_cart(request, slug):
         order = order_qs[0]
         # check if the order item is in the order
         if order.items.filter(item__slug=item.slug).exists():
-            order_item.quantity += 1
-            order_item.save()
-            messages.info(request, "This item quantity was updated.")
-            return redirect("core:order-summary")
+            if order_item.quantity < order_item.item.maximum_quantity:
+                order_item.quantity += 1
+                order_item.save()
+                messages.info(request, "This item quantity was updated.")
+                return redirect("core:order-summary")
+            else:
+                messages.info(request, "Maximum Quantity Reached")
+                return redirect("core:order-summary")
         else:
             order.items.add(order_item)
             messages.info(request, "This item was added to your cart.")
@@ -291,7 +341,10 @@ def add_to_cart(request, slug):
 
 @login_required
 def remove_from_cart(request, slug):
-    item = get_object_or_404(Item, slug=slug)
+    try:
+        item = ItemVariation.objects.get(slug=slug)
+    except ObjectDoesNotExist:
+        item = get_object_or_404(Item , slug=slug)
     order_qs = Order.objects.filter(
         user=request.user,
         ordered=False
@@ -380,16 +433,19 @@ Printout Views for admin page
 
 '''
 
-
 class MorningOrderPrintout(View):
     def get(self, *args, **kwargs):
 
-        pickup_date=datetime.date.today()
-        queryset = Order.objects.filter(pickup_date=pickup_date, break_choice='T', ordered ="True")
-        today = datetime.datetime.now()
+        pickup_date = datetime.date.today()
+        queryset = Order.objects.filter(pickup_date=pickup_date,
+                                        break_choice='T',
+                                        ordered ="True"
+                                        )
+
         params = {
             'queryset': queryset,
-            'today': today,
+            'today': pickup_date,
+            'break': "Morning Tea",
         }
         return Render.render('admin/order_printout.html', params)
 
@@ -398,11 +454,15 @@ class LunchOrderPrintout(View):
     def get(self, *args, **kwargs):
 
         pickup_date = datetime.date.today()
-        queryset = Order.objects.filter(pickup_date=pickup_date, break_choice='L', ordered='True')
-        today = datetime.datetime.now()
+        queryset = Order.objects.filter(pickup_date=pickup_date,
+                                        break_choice='L',
+                                        ordered='True'
+                                        )
+
         params = {
             'queryset': queryset,
-            'today': today,
+            'today': pickup_date,
+            'break': "Lunch",
         }
         return Render.render('admin/order_printout.html', params)
 

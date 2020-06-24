@@ -1,6 +1,2 @@
-from celery import Celery
+from celery import *
 
-
-@task(name="sum_two_numbers")
-def add(x, y):
-    return x + y

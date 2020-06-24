@@ -1,12 +1,13 @@
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db.models.signals import post_save , pre_save
 from django.conf import settings
 from django.db import models
-from django.db.models import Sum
 from django.dispatch import receiver
 from django.shortcuts import reverse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
-# from django_countries.fields import CountryField
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 import datetime
 
@@ -28,18 +29,27 @@ PAYMENT_CHOICES = (
     ('C', 'Pay with Cash at Tuck Shop')
 )
 
-# Date model
-class InputDates(models.Model):
-    input_dates = models.DateField()
 
-# Model for list of 'closed' dates
-class ClosedDates(models.Model):
-    closed_dates = models.ManyToManyField(InputDates)
+# Model for 'closed' dates
+class ClosedDate(models.Model):
+    closed_dates = models.DateField(unique=True)
+
 
 # Model for current window using closed dates to determine next open day
 # intending to use celery to update current window at 9am each day, this can be called and displayed also
 class CurrentWindow(models.Model):
     order_window = models.DateField()
+
+
+class CutoffTime(models.Model):
+    cutoff = models.TimeField(default=datetime.time(hour=9, minute=0, second=0, microsecond=0))
+
+    def save(self, *args, **kwargs):
+        if not self.pk and CutoffTime.objects.exists():
+            # if you'll not check for self.pk
+            # then error will also raised in update of exists model
+            raise ValidationError('There is can be only one Cut off time instance')
+        return super(CutoffTime, self).save(*args, **kwargs)
 
 
 class UserProfile(models.Model):
@@ -59,13 +69,13 @@ class UserProfile(models.Model):
         super().save(*args , **kwargs)
 
 
-
 def userprofile_receiver(sender, instance, created, *args, **kwargs):
     if created:
         userprofile = UserProfile.objects.create(user=instance)
 
 
 post_save.connect(userprofile_receiver, sender=settings.AUTH_USER_MODEL)
+
 
 @receiver(pre_save, sender=User)
 def update_username_from_email(sender, instance, **kwargs):
@@ -77,13 +87,16 @@ def update_username_from_email(sender, instance, **kwargs):
 
 
 class Item(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=30)
     price = models.DecimalField(decimal_places=2, max_digits=4, blank=False, null=False)
     discount_price = models.DecimalField(decimal_places=2,blank=True, null=True, max_digits=4)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
     slug = models.SlugField(default='', editable=False)
     description = models.TextField(blank = True, null = True)
     image = models.ImageField(upload_to='media/images/', default='media/images/no-image-available-icon-template-260nw-1036735678.jpg_xctPfVt.png')
+    maximum_quantity = models.IntegerField(default=10)
+    not_available = models.BooleanField(default=False)
+    variations_exist = models.BooleanField(default=False, editable=False)
 
     def __str__(self):
         return self.title
@@ -96,10 +109,22 @@ class Item(models.Model):
     def save(self , *args , **kwargs):
         value = self.title
         self.slug = slugify(value , allow_unicode=True)
+
         super().save(*args , **kwargs)
+
+        if ItemVariation.objects.filter(item=self).exists():
+            self.variations_exist = True
+        else:
+            self.variations_exist = False
+        super().save()
 
     def get_add_to_cart_url(self):
         return reverse("core:add-to-cart", kwargs={
+            'slug': self.slug
+        })
+
+    def select_option_url(self):
+        return reverse("core:select-option", kwargs={
             'slug': self.slug
         })
 
@@ -107,6 +132,30 @@ class Item(models.Model):
         return reverse("core:remove-from-cart", kwargs={
             'slug': self.slug
         })
+
+
+class ItemVariation(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    title = models.CharField(max_length=12) # e.g. flavour or volume (for drinks)
+    price = models.DecimalField("Price (if different from base price)", decimal_places=2, max_digits=4, null=True, blank=True)
+    image = models.ImageField(upload_to='media/images/' ,
+                              default='media/images/no-image-available-icon-template-260nw-1036735678.jpg_xctPfVt.png')
+    slug = models.SlugField(default='', editable=False)
+
+    class Meta:
+        unique_together = (
+            'title', 'price'
+        )
+
+    def __str__(self):
+        return self.item.title + ' (' + self.title + ')'
+
+    def save(self , *args , **kwargs):
+        value = (self.item.title + '-' + self.title)
+        self.slug = slugify(value , allow_unicode=True)
+        if self.price is None:
+            self.price = self.item.price
+        super().save(*args, **kwargs)
 
 
 class OrderItem(models.Model):
@@ -144,7 +193,7 @@ class Order(models.Model):
     pickup_date = models.DateField("Pickup Date", default=datetime.date.today)
     break_choice = models.CharField(choices=BREAK_CHOICES, default='T', max_length=20)
     payment_option = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='B')
-    order_total = models.DecimalField(decimal_places=2 , max_digits=5, default=0.00)
+    order_total = models.DecimalField(decimal_places=2, max_digits=6, default=0.00)
     # coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, blank=True, null=True)
 
     '''
@@ -153,14 +202,17 @@ class Order(models.Model):
     3. add pickup time
     '''
     def set_window(self):
-        current_window = datetime.date.today()
+        today = datetime.date.today()
+        current_window = today
+
         next_window = order_window = datetime.date.today() + datetime.timedelta(days=1)
-        cuttime=datetime.time(hour=9, minute=0, second=0, microsecond=0)
+        time = CutoffTime.objects.get()
+        cuttime = time.cutoff
         now = datetime.datetime.now().time()
         if now <= cuttime:
-            order_window=current_window
+            order_window = current_window
         elif now > cuttime:
-            order_window=next_window
+            order_window = next_window
         self.pickup_date = order_window
 
     def __str__(self):
@@ -172,13 +224,14 @@ class Order(models.Model):
             total += order_item.get_final_price()
         # if self.coupon:
         #     total -= self.coupon.amount
-        # self.order_total=total
+        self.order_total = total
         return total
 
     def get_add_order_to_cart_url(self):
         return reverse("core:add-order-to-cart", kwargs={
             'ref_code': self.ref_code
         })
+
 
 class NetOrders(models.Model):
     class Meta:

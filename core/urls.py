@@ -41,12 +41,13 @@ urlpatterns = [
 
     path('search/$/', SearchView.as_view(), name='search'),
 
-    path('render/morning-orders', MorningOrderPrintout.as_view(), name='morning-orders-printout'),
-    path('render/lunch-orders', LunchOrderPrintout.as_view(), name='lunch-orders-printout'),
-    path('render/net-orders', NetOrderPrintout.as_view(), name='net-orders-printout'),
+    path('admin/render/morning-orders', MorningOrderPrintout.as_view(), name='morning-orders-printout'),
+    path('admin/render/lunch-orders', LunchOrderPrintout.as_view(), name='lunch-orders-printout'),
+    path('admin/render/net-orders', NetOrderPrintout.as_view(), name='net-orders-printout'),
 
     path('product/<slug>/', ItemDetailView.as_view(), name='product'),
     path('add-to-cart/<slug>/', add_to_cart, name='add-to-cart'),
+    path('select-option/<slug>/', ItemDetailView.as_view(), name='select-option'),
     path('add-order-to-cart/<ref_code>/', add_order_to_cart, name='add-order-to-cart'),
 
     # path('add-coupon/', AddCouponView.as_view(), name='add-coupon'),

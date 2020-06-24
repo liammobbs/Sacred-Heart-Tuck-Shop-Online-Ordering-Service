@@ -18,13 +18,13 @@
             {% for object in object_list %}
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
 
-              <div class="card">
+              <div class="card h-100">
 
                 <div class="view overlay">
                   <img src="{{ object.image.url }}" class="card-img-top">
                 </div>
 
-                <div class="card-body h-1000 align-items-center">
+                <div class="card-body align-items-center">
                   <div class="mb-1">
                     <h5 class="row" style="height:50px">
                       <strong class="text-break text-left col-sm">
@@ -51,9 +51,17 @@
                     </div>
                   </div>
                   <strong>
-                    <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md btn-block my-0 p waves-effect waves-light">Add to Cart
-                      <i class="fas fa-shopping-cart ml-1"></i>
-                    </a>
+                    {% if object.not_available == False %}
+                      {% if object.variations_exist == False %}
+                        <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md btn-block my-0 p waves-effect waves-light">Add to Cart
+                          <i class="fas fa-shopping-cart ml-1"></i>
+                        </a>
+                      {% else %}
+                        <a href="{{ object.select_option_url }}" class="btn btn-primary btn-md btn-block my-0 p waves-effect waves-light">Select Option</a>
+                      {% endif %}
+                    {% else %}
+                      <a class="btn btn-md btn-block" style="background-color:#cccccc">Not Available</a>
+                    {% endif %}
                   </strong>
 
                 </div>
@@ -75,7 +83,7 @@
   <footer>
       {% if is_paginated %}
       <nav class="d-flex justify-content-center fadeIn fixed-bottom pb-0 pt-0 mt-0 mb-0 bg-white">
-        <ul class="pagination pg-blue mb-1 mt-2">
+        <ul class="pagination pg-blue mb-2 mt-2">
 
           {% if page_obj.has_previous %}
           <li class="page-item">

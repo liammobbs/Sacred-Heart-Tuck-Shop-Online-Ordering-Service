@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 import xhtml2pdf.pisa as pisa
 
-#This is the render class which creates pdfs from html/css files for the printouts
+# This is the render class which creates pdfs from html/css files for the printouts
+
 
 class Render:
 
