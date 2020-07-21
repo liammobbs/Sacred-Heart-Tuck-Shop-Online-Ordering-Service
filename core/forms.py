@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Order
+from .models import *
 
 PAYMENT_CHOICES = (
     ('B', 'Pay with Card (Credit/Debit)'),
@@ -18,6 +18,14 @@ class CheckoutForm(ModelForm):
         model = Order
         fields = ('break_choice',
                   'payment_option')
+
+
+def create_option_form(self):
+
+    class SelectOptionForm(forms.ModelForm):
+        variation_item = forms.ModelChoiceField(queryset=ItemVariation.objects.filter(item=self))
+
+    return SelectOptionForm
 
 
 # class CouponForm(forms.Form):

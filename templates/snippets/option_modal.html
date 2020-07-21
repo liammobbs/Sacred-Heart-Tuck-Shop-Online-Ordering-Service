@@ -1,0 +1,39 @@
+
+
+
+<!-- Modal -->
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">Select Option</h4>
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+  </div>
+  <div class="modal-body pb-4">
+    <h5 class="mb-3">Item: {{ item }}</h5>
+      <div class="alert alert-warning fade show collapse" role="alert">
+        Please select an option below
+      </div>
+      <div class="btn-group required" data-toggle="buttons">
+        {% for variation in variations_list %}
+          <label class="btn {% if variation.not_available == True %}disabled{% endif %}">
+            <input type="radio" name="optionsgroup"  id="{{variation.slug}}" class="optionsgroup" data-url="{{ variation.get_add_to_cart_url }}"> {{variation.variation}} ${{variation.price}}
+          </label>
+        {% endfor %}
+      </div>
+  </div>
+  <div class="modal-footer">
+    <a id="optionurl" class="btn btn-primary optionurl" href="#">Add To Cart</a>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+    $('.optionsgroup').change(function(e) {
+          $(".alert").alert('close')
+          const $this = $(this), $link = $("#optionurl");
+          $link.attr("href", $this.attr("data-url"));
+        });
+
+
+</script>
+

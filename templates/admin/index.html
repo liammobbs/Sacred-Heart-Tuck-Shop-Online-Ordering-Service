@@ -12,13 +12,13 @@
         <h2>Printout Actions</h2>
         <ul class="actionlist">
            <li>
-               <A  target="_blank" href="render/net-orders">Net Orders</A>
+               <A  target="_blank" href="{% url 'core:net-orders' %}">Net Orders</A>
            </li>
            <li>
-               <A target="_blank" href="render/morning-orders">Morning Orders: Packing Sheet</A>
+               <A target="_blank" href="{% url 'core:morning-orders' %}">Morning Orders: Packing Sheet</A>
            </li>
            <li>
-               <A target="_blank" href="render/lunch-orders">Lunch Orders: Packing Sheet</A>
+               <A target="_blank" href="{% url 'core:lunch-orders' %}">Lunch Orders: Packing Sheet</A>
            </li>
        </ul>
     </div>

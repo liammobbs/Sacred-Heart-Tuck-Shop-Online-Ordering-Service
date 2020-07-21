@@ -12,3 +12,27 @@
   new WOW().init();
 
 </script>
+
+<!-- Modal data refresh function -->
+<script type="text/javascript">
+
+  $(document).on('click','.open-OptionModal',function(){
+    var slug = $(this).data('slug');
+    var object = $(this).data('object');
+    update_variations(slug)
+
+
+    $(".modal-body #object").text(object);
+    $(".modal-body #slug").text(slug);
+    $('#OptionModal').modal('show');
+
+  });
+  function update_variations(slug){
+        console.log(slug)
+        $('.option-content').html('').load(
+        "{% url 'core:update-variations' %}?slug=" +slug
+        );
+        }
+
+</script>
+

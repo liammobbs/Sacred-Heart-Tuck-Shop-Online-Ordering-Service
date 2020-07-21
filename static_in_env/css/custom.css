@@ -9,6 +9,8 @@ nav.nav-1{
     border-bottom-style:solid;
     border-color:#ED1C24;
     border-width:3px;
+    z-index:1020
+
 }
 
 .main-content{
@@ -16,7 +18,7 @@ nav.nav-1{
     position:fixed !important;
     right:0;
     left:0;
-    z-index:auto;
+    z-index:1000
 }
 
 
@@ -32,7 +34,6 @@ div.scroll{
     -webkit-overflow-scrolling: touch;
     flex: auto;
     text-align:justify;
-    z-index:500
 }
 
 .landing-wrapper {
@@ -65,6 +66,16 @@ fixed{
     border: none;
 }
 
-.position-above {
-    z-index: 1030
+
+
+.modal-backdrop {
+    z-index:1010 !important;
+    display: none;
 }
+
+.modal-dialog {
+    margin: 2px auto;
+    z-index: 1040 !important;
+    pointer-events: all;
+}
+

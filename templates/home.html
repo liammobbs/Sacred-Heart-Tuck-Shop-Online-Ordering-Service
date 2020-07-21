@@ -2,13 +2,22 @@
 <!-- navbar is in here-->
 {% block content %}
 
+
+
   <main>
-    <div class="main-content main-div">
+    <div class="main-content main-div" >
+
       <div class="container">
           <!-- menubar is in here -->
           {% include "menubar.html" %}
       </div>
       <div class="scroll-frame scroll container wow fadeIn">
+        <!-- Select Option Modal -->
+        <div id="OptionModal" class = "my-modal modal fade" style="position:absolute;-webkit-animation-name: animatetop;padding-top:100px">
+          <div class="modal-lg modal-dialog option-content">
+              {% include 'snippets/option_modal.html' %}
+          </div>
+        </div>
 
         <!--Section: Products v.3-->
         <section class="text-center mb-1 container">
@@ -16,6 +25,7 @@
           <div class="row">
 
             {% for object in object_list %}
+
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
 
               <div class="card h-100">
@@ -57,7 +67,7 @@
                           <i class="fas fa-shopping-cart ml-1"></i>
                         </a>
                       {% else %}
-                        <a href="{{ object.select_option_url }}" class="btn btn-primary btn-md btn-block my-0 p waves-effect waves-light">Select Option</a>
+                        <button data-target="#OptionModal" class="btn btn-primary btn-md btn-block my-0 p waves-effect waves-light open-OptionModal" data-object="{{ object.title }}" data-slug="{{ object.slug }}">Select Option </button>
                       {% endif %}
                     {% else %}
                       <a class="btn btn-md btn-block" style="background-color:#cccccc">Not Available</a>
@@ -74,11 +84,18 @@
 
         </section>
         <!--Section: Products v.3-->
+
       </div>
 
     </div>
+    <!-- Select Option Modal -->
+    <!-- Here we create this empty div for inserting modal -->
+
+
 
   </main>
+
+
   <!--Pagination-->
   <footer>
       {% if is_paginated %}

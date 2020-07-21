@@ -11,6 +11,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 import datetime
 
+
 CATEGORY_CHOICES = (
     ('HF', 'Hot Food'),
     ('CF', 'Cold Food'),
@@ -64,9 +65,9 @@ class UserProfile(models.Model):
     def save(self , *args , **kwargs):
         email_address = self.user.email
         self.user_email = email_address
-        self.firstname= self.user.first_name
-        self.lastname= self.user.last_name
-        super().save(*args , **kwargs)
+        self.firstname = self.user.first_name
+        self.lastname = self.user.last_name
+        super().save(*args, **kwargs)
 
 
 def userprofile_receiver(sender, instance, created, *args, **kwargs):
@@ -109,14 +110,12 @@ class Item(models.Model):
     def save(self , *args , **kwargs):
         value = self.title
         self.slug = slugify(value , allow_unicode=True)
-
         super().save(*args , **kwargs)
-
         if ItemVariation.objects.filter(item=self).exists():
             self.variations_exist = True
         else:
             self.variations_exist = False
-        super().save()
+        super().save(*args , **kwargs)
 
     def get_add_to_cart_url(self):
         return reverse("core:add-to-cart", kwargs={
@@ -138,9 +137,11 @@ class ItemVariation(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     variation = models.CharField(max_length=12) # e.g. flavour or volume (for drinks)
     price = models.DecimalField("Price (if different from base price)", decimal_places=2, max_digits=4, null=True, blank=True)
+    # discount_price = models.DecimalField(decimal_places=2 , blank=True , null=True , max_digits=4)
     image = models.ImageField(upload_to='media/images/' ,
                               default='media/images/no-image-available-icon-template-260nw-1036735678.jpg_xctPfVt.png')
     slug = models.SlugField(default='')
+    option_not_available = models.BooleanField(default=False)
 
     class Meta:
         unique_together = (
@@ -154,22 +155,45 @@ class ItemVariation(models.Model):
     def save(self , *args , **kwargs):
         value = (self.item.title + '-' + self.variation)
         self.slug = slugify(value , allow_unicode=True)
-        if self.price is None:
-            self.price = self.item.price
+
+        # if not self.discount_price:
+        #     self.discount_price = self.item.discount_price
         super().save(*args, **kwargs)
+        if ItemVariation.objects.filter(item=self.item).exists():
+            self.item.variations_exist = True
+        else:
+            self.item.variations_exist = False
+        self.item.save(*args, **kwargs)
+
+    def delete(self, *args , **kwargs):
+        super().delete(*args , **kwargs)
+        if ItemVariation.objects.filter(item=self.item).exists():
+            self.item.variations_exist = True
+        else:
+            self.item.variations_exist = False
+        self.item.save(*args, **kwargs)
+
+    def get_add_to_cart_url(self):
+        return reverse("core:add-to-cart", kwargs={
+            'slug': self.slug
+        })
+
+
+
+
 
 
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
+
     title = models.CharField(default='', max_length=20)
     price = models.DecimalField(default=0.00, decimal_places=2 , max_digits=4)
     slug = models.SlugField(default='')
 
     item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True, blank=True)
     item_variations = models.ForeignKey(ItemVariation, on_delete=models.CASCADE, null=True)
-    # item_variations_exist = models.BooleanField(default=False)
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
@@ -219,6 +243,7 @@ class Order(models.Model):
     2. Add pickup date
     3. add pickup time
     '''
+
     def set_window(self):
         today = datetime.date.today()
         current_window = today
@@ -255,8 +280,19 @@ class NetOrders(models.Model):
     class Meta:
         verbose_name = 'Net Orders'
         verbose_name_plural = 'Net Orders'
-    date = models.DateField()
-    net_item = models.ManyToManyField(OrderItem, related_name='netitems')
+    date = models.DateField(default=datetime.date.today)
+
+    def __str__(self):
+        return str(self.date)
+
+class NetItem(models.Model):
+    date = models.ForeignKey(NetOrders, on_delete=models.CASCADE)
+    title = models.CharField(default='' , max_length=20)
+    slug = models.SlugField(default='')
+    quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.quantity} of {self.title}"
 
 # class Coupon(models.Model):
 #     code = models.CharField(max_length=15)

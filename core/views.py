@@ -7,8 +7,8 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, View, TemplateView
 from django.shortcuts import redirect
 from django.db.models import Q
-from .forms import CheckoutForm
-# ,CouponForm
+from .forms import CheckoutForm, create_option_form
+from copy import deepcopy
 
 from .models import *
 from .render import Render
@@ -67,7 +67,7 @@ class CheckoutView(View):
             try:
                 order = Order.objects.get(user=self.request.user, ordered=False)
                 order.set_window()
-                user = UserProfile.objects.get(user = self.request.user)
+                user = UserProfile.objects.get(user=self.request.user)
                 form = CheckoutForm()
                 context = {
                     'form': form,
@@ -105,19 +105,13 @@ class CheckoutView(View):
                     date=order.pickup_date
                 )
                 for order_item in order.items.all():
-                    try:
-                        item = order_item.item
-                        quantity = order_item.quantity
-                        net_order_item = NetOrders.objects.get(net_item__item=item , date=order.pickup_date)
-                        for element in net_order_item.net_item.all():
-                            if element.item == item:
-                                element.quantity += quantity
-                                element.save()
-
-                    except ObjectDoesNotExist:
-                        net_order.net_item.add(order_item)
-
-                net_order.save()
+                    net_item, created= NetItem.objects.get_or_create(
+                        date=net_order,
+                        slug=order_item.slug,
+                        title=order_item.title,
+                    )
+                    net_item.quantity += order_item.quantity
+                    net_item.save()
 
                 order.save()
 
@@ -143,6 +137,17 @@ class AccountView(View):
 '''
 Search bar
 '''
+
+def update_variations(request):
+    slug = request.GET.get('slug')
+    item = Item.objects.get(slug=slug)
+    variations_list = item.itemvariation_set.all() #returns all foreignkey relations for an item (backwards direction)
+    context = {
+        'item': item,
+        'variations_list': variations_list,
+    }
+    return render(request, 'snippets/option_modal.html', context)
+
 
 def search(request):
     query = request.GET.get('q', '')
@@ -272,7 +277,9 @@ class OrderSummaryView(LoginRequiredMixin, View):
 
 class ItemDetailView(DetailView):
     model = Item
-    template_name = "product.html"
+
+
+    template_name = "item.html"
 
 
 def add_order_to_cart(request, ref_code):
@@ -280,6 +287,8 @@ def add_order_to_cart(request, ref_code):
     order_qs = Order.objects.filter(user=request.user, ordered=False)
 
     if order_qs.exists():
+        for item in order_qs.items.all():
+            item.delete()
         order_qs.delete()
 
     order_date = timezone.now()
@@ -290,15 +299,12 @@ def add_order_to_cart(request, ref_code):
     )
 
     for element in past_order.items.all():
-        item = element.item
-        quantity=element.quantity
-        order_item, created = OrderItem.objects.get_or_create(
-            item=item,
-            quantity=quantity,
-            user=request.user,
-            ordered=False
-        )
+        element.pk = None
+        order_item = element
+        order_item.ordered = False
+        order_item.save()
         order.items.add(order_item)
+
 
     messages.info(request , "This order was added to your cart.")
     return redirect("core:order-summary")
@@ -313,6 +319,7 @@ def add_to_cart(request, slug):
             item=item,
             user=request.user,
             item_variations=variation_item,
+            slug=slug,
             ordered=False
         )
 
@@ -321,6 +328,7 @@ def add_to_cart(request, slug):
         order_item, created = OrderItem.objects.get_or_create(
             item=item,
             user=request.user,
+            slug=slug,
             ordered=False
         )
 
@@ -480,7 +488,7 @@ class LunchOrderPrintout(View):
 class NetOrderPrintout(View):
     def get(self, *args, **kwargs):
         pickup_date = datetime.date.today()
-        queryset = NetOrders.objects.filter(date=pickup_date)
+        queryset = NetOrders.objects.get(date=pickup_date)
         params = {
             'queryset': queryset,
             'today': pickup_date,

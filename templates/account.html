@@ -31,14 +31,14 @@
                                         </h7>
                                         {% for element in object.items.all %}
                                         <tr class="borderless">
-                                            <td class="text-break">{{element.item}}</td>
+                                            <td class="text-break">{{element.title}}</td>
                                             <td style="padding-right:10px;float:right;">${{element.item.price}}</td>
                                             <td style="width:10px">{{element.quantity}}</td>
                                         </tr>
                                         {% endfor %}
                                     </table>
                                 </td>
-                              <td class="">{{object.order_total}}</td>
+                              <td class="">${{object.order_total}}</td>
                               <td>
                                   <a href="{{ object.get_add_order_to_cart_url }}" class="text-primary btn-link">Add Order To Cart</a>
                               </td>
