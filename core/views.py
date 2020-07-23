@@ -138,6 +138,8 @@ class AccountView(View):
 Search bar
 '''
 
+
+# Ajax request to update modal
 def update_variations(request):
     slug = request.GET.get('slug')
     item = Item.objects.get(slug=slug)
@@ -227,6 +229,7 @@ class FrozenView(ListView):
     paginate_by = 12
     template_name = "home.html"
 
+
 class DrinksView(ListView):
     model = Item
 
@@ -287,9 +290,10 @@ def add_order_to_cart(request, ref_code):
     order_qs = Order.objects.filter(user=request.user, ordered=False)
 
     if order_qs.exists():
-        for item in order_qs.items.all():
-            item.delete()
         order_qs.delete()
+
+    for orderitem in OrderItem.objects.filter(user=request.user, ordered=False):
+        orderitem.delete()
 
     order_date = timezone.now()
     order = Order.objects.create(
@@ -452,6 +456,7 @@ Printout Views for admin page
 
 '''
 
+
 class MorningOrderPrintout(View):
     def get(self, *args, **kwargs):
 
@@ -487,12 +492,16 @@ class LunchOrderPrintout(View):
 
 class NetOrderPrintout(View):
     def get(self, *args, **kwargs):
-        pickup_date = datetime.date.today()
-        queryset = NetOrders.objects.get(date=pickup_date)
-        params = {
-            'queryset': queryset,
-            'today': pickup_date,
-        }
-        return Render.render('admin/net_order_printout.html', params)
+        try:
+            pickup_date = datetime.date.today()
+            queryset = NetOrders.objects.get(date=pickup_date)
+            params = {
+                'queryset': queryset,
+                'today': pickup_date,
+            }
+            return Render.render('admin/net_order_printout.html', params)
+        except ObjectDoesNotExist:
+            messages.info(self.request, "There are no orders logged for today")
+
 
 

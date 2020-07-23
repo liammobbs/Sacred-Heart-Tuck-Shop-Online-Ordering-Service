@@ -139,8 +139,8 @@ class NetOrdersAdmin(admin.ModelAdmin):
     def has_add_permission(self , request , obj=None):
         return False
 
-
-
+    def has_delete_permission(self , request , obj=None):
+        return False
 
 
 class CutoffAdmin(admin.ModelAdmin):
@@ -180,13 +180,13 @@ class ItemAdmin(admin.ModelAdmin):
 
 admin.site.site_header = "Sacred Heart Tuck Shop Admin"
 admin.site.register(Item , ItemAdmin)
-admin.site.register(OrderItem, OrderItemAdmin)
+# admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(Order , OrderAdmin)
 # admin.site.register(Payment)
 # admin.site.register(Coupon)
 # admin.site.register(Refund)
 admin.site.register(UserProfile , UserProfileAdmin)
 admin.site.register(NetOrders , NetOrdersAdmin)
-admin.site.register(NetItem)
+# admin.site.register(NetItem)
 admin.site.register(CutoffTime , CutoffAdmin)
 admin.site.register(ClosedDate , ClosedDateAdmin)

@@ -37,22 +37,25 @@ class ClosedDate(models.Model):
 
 
 # Model for current window using closed dates to determine next open day
-# intending to use celery to update current window at 9am each day, this can be called and displayed also
 class CurrentWindow(models.Model):
     order_window = models.DateField()
 
-
+# model for daily cut off time
 class CutoffTime(models.Model):
+    class Meta:
+        verbose_name = 'Cutoff Time'
+        verbose_name_plural = 'Cutoff Time'
     cutoff = models.TimeField(default=datetime.time(hour=9, minute=0, second=0, microsecond=0))
 
     def save(self, *args, **kwargs):
         if not self.pk and CutoffTime.objects.exists():
             # if you'll not check for self.pk
-            # then error will also raised in update of exists model
+            # then error will also raised if cut off time already exists
             raise ValidationError('There is can be only one Cut off time instance')
         return super(CutoffTime, self).save(*args, **kwargs)
 
 
+#user profile data
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     firstname = models.CharField(default='', max_length=100)
@@ -86,8 +89,11 @@ def update_username_from_email(sender, instance, **kwargs):
 
         instance.username = username
 
-
+#Item model
 class Item(models.Model):
+    class Meta:
+        verbose_name = 'Menu'
+        verbose_name_plural = 'Menu'
     title = models.CharField(max_length=30)
     price = models.DecimalField(decimal_places=2, max_digits=4, blank=False, null=False)
     discount_price = models.DecimalField(decimal_places=2,blank=True, null=True, max_digits=4)
@@ -135,7 +141,7 @@ class Item(models.Model):
 
 class ItemVariation(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    variation = models.CharField(max_length=12) # e.g. flavour or volume (for drinks)
+    variation = models.CharField(max_length=30)# e.g. flavour or volume (for drinks)
     price = models.DecimalField("Price (if different from base price)", decimal_places=2, max_digits=4, null=True, blank=True)
     # discount_price = models.DecimalField(decimal_places=2 , blank=True , null=True , max_digits=4)
     image = models.ImageField(upload_to='media/images/' ,
@@ -151,13 +157,14 @@ class ItemVariation(models.Model):
     def __str__(self):
         return self.item.title + ' (' + self.variation + ')'
 
-
     def save(self , *args , **kwargs):
         value = (self.item.title + '-' + self.variation)
         self.slug = slugify(value , allow_unicode=True)
 
         # if not self.discount_price:
         #     self.discount_price = self.item.discount_price
+        if not self.price:
+            self.price = self.item.price
         super().save(*args, **kwargs)
         if ItemVariation.objects.filter(item=self.item).exists():
             self.item.variations_exist = True
@@ -177,10 +184,6 @@ class ItemVariation(models.Model):
         return reverse("core:add-to-cart", kwargs={
             'slug': self.slug
         })
-
-
-
-
 
 
 class OrderItem(models.Model):
@@ -238,6 +241,7 @@ class Order(models.Model):
     order_total = models.DecimalField(decimal_places=2, max_digits=6, default=0.00)
     # coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, blank=True, null=True)
 
+    
     '''
     1. Item added to cart
     2. Add pickup date
@@ -285,14 +289,15 @@ class NetOrders(models.Model):
     def __str__(self):
         return str(self.date)
 
+
 class NetItem(models.Model):
     date = models.ForeignKey(NetOrders, on_delete=models.CASCADE)
     title = models.CharField(default='' , max_length=20)
     slug = models.SlugField(default='')
-    quantity = models.IntegerField(default=1)
+    quantity = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.quantity} of {self.title}"
+        return self.title
 
 # class Coupon(models.Model):
 #     code = models.CharField(max_length=15)
