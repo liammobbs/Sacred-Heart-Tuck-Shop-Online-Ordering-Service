@@ -19,6 +19,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+   	'allauth.socialaccount.providers.microsoft',
+
     'crispy_forms',
     'django_countries',
 
@@ -81,7 +83,12 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
+
 SOCIALACCOUNT_PROVIDERS = {
+    'microsoft': {
+            'TENANT': '{tenant}',
+        },
+
     'google': {
         'SCOPE': [
             'profile',

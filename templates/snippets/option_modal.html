@@ -12,16 +12,19 @@
       <div class="alert alert-info fade show collapse" role="alert">
         Please select an option below
       </div>
-      <div class="btn-group required mt-2" data-toggle="buttons">
-        {% for variation in variations_list %}
-          <label class="btn {% if variation.option_not_available %}disabled{% endif %}">
-            <input type="radio" name="optionsgroup"  id="{{variation.slug}}" class="optionsgroup" data-url="{{ variation.get_add_to_cart_url }}"> {{variation.variation}} ${{variation.price}} {% if variation.option_not_available %}<br>(Not Available){% endif %}
-          </label>
-        {% endfor %}
+      <div class="btn-group mt-2" role="group" data-toggle="buttons">
+        <div class="container-fluid d-flex flex-wrap">
+          {% for variation in variations_list %}
+            <label class="btn {% if variation.option_not_available %}disabled{% endif %} mb-3 text-left ml-0">
+              <input type="radio" name="optionsgroup"  id="{{variation.slug}}" class="optionsgroup" data-url="{{ variation.get_add_to_cart_url }}">
+             {{variation.variation}} ${{variation.price}} {% if variation.option_not_available %}<br>(Not Available){% endif %}
+            </label>
+          {% endfor %}
+        </div>
       </div>
   </div>
   <div class="modal-footer">
-    <a id="optionurl" href="#"class="btn btn-primary my-0 p waves-effect waves-light">Add to Cart
+    <a id="optionurl" href="#" class="btn btn-primary my-0 p waves-effect waves-light">Add to Cart
         <i class="fas fa-shopping-cart ml-1"></i>
     </a>
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

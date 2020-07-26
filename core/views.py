@@ -124,14 +124,19 @@ class CheckoutView(View):
 
 class AccountView(View):
     def get (self, request, *args, **kwargs):
-        orders = Order.objects.filter(user=self.request.user, ordered=True).order_by('-order_date')
-        profile = UserProfile.objects.get(user=self.request.user)
-        context = {
-            "orders": orders,
-            "user": profile,
+        try:
+            orders = Order.objects.filter(user=self.request.user, ordered=True).order_by('-order_date')
+            profile = UserProfile.objects.get(user=self.request.user)
+            context = {
+                "orders": orders,
+                "user": profile,
 
-        }
-        return render(self.request, "account.html", context)
+            }
+            return render(self.request, "account.html", context)
+        except TypeError:
+            messages.info(self.request, "You are not currently signed in")
+            return redirect("core:home")
+
 
 
 '''
