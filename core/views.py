@@ -308,11 +308,14 @@ def add_order_to_cart(request, ref_code):
     )
 
     for element in past_order.items.all():
-        element.pk = None
-        order_item = element
-        order_item.ordered = False
-        order_item.save()
-        order.items.add(order_item)
+        if element.item or element.item_variations:
+            element.pk = None
+            order_item = element
+            order_item.ordered = False
+            order_item.save()
+            order.items.add(order_item)
+        else:
+            messages.info(request , "This item is no longer available.")
 
 
     messages.info(request , "This order was added to your cart.")

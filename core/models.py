@@ -140,7 +140,7 @@ class Item(models.Model):
 
 
 class ItemVariation(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE) # deletes Item variation when item is deleted
     variation = models.CharField(max_length=30)# e.g. flavour or volume (for drinks)
     price = models.DecimalField("Price (if different from base price)", decimal_places=2, max_digits=4, null=True, blank=True)
     # discount_price = models.DecimalField(decimal_places=2 , blank=True , null=True , max_digits=4)
@@ -195,8 +195,9 @@ class OrderItem(models.Model):
     price = models.DecimalField(default=0.00, decimal_places=2 , max_digits=4)
     slug = models.SlugField(default='')
 
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True, blank=True)
-    item_variations = models.ForeignKey(ItemVariation, on_delete=models.CASCADE, null=True)
+    item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, blank=True) #sets field to null to protect model
+    item_variations = models.ForeignKey(ItemVariation, on_delete=models.SET_NULL, null=True)
+
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
@@ -207,7 +208,7 @@ class OrderItem(models.Model):
             self.title = str(self.item.title + ' (' + self.item_variations.variation + ')')
             self.price = self.item_variations.price
             self.slug = self.item_variations.slug
-        else:
+        elif self.item:
             self.title = self.item.title
             self.price = self.item.price
             self.slug = self.item.slug
@@ -241,7 +242,7 @@ class Order(models.Model):
     order_total = models.DecimalField(decimal_places=2, max_digits=6, default=0.00)
     # coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, blank=True, null=True)
 
-    
+
     '''
     1. Item added to cart
     2. Add pickup date
