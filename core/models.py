@@ -37,8 +37,34 @@ class ClosedDate(models.Model):
 
 
 # Model for current window using closed dates to determine next open day
-class CurrentWindow(models.Model):
-    order_window = models.DateField()
+# class CurrentWindow(models.Model):
+#     Open = models.BooleanField(default=True)
+# 
+#     def open_check(self, *args, **kwargs):
+#         time = CutoffTime.objects.get()
+#         cuttime = time.cutoff
+#         now = datetime.datetime.now().time()
+#         self.today = datetime.date.today()
+# 
+#         self.Open = True
+#         if now > cuttime:
+#             self.today = self.today + datetime.timedelta(days=1)
+#        
+#        self.today 
+#         else:
+#             try:
+#                 check = ClosedDate.objects.filter(closed_dates=today)
+#                 if check.exists():
+#                     self.Open = False
+#             except ObjectDoesNotExist:
+#                 self.Open = True
+# 
+#     def save(self, *args, **kwargs):
+#         if not self.pk and CutoffTime.objects.exists():
+#             # if you'll not check for self.pk
+#             # then error will also raised if cut off time already exists
+#             raise ValidationError('There is can be only one Cut off time instance')
+#         return super(CutoffTime, self).save(*args, **kwargs)
 
 # model for daily cut off time
 class CutoffTime(models.Model):
@@ -53,7 +79,6 @@ class CutoffTime(models.Model):
             # then error will also raised if cut off time already exists
             raise ValidationError('There is can be only one Cut off time instance')
         return super(CutoffTime, self).save(*args, **kwargs)
-
 
 #user profile data
 class UserProfile(models.Model):
@@ -83,16 +108,19 @@ post_save.connect(userprofile_receiver, sender=settings.AUTH_USER_MODEL)
 
 @receiver(pre_save, sender=User)
 def update_username_from_email(sender, instance, **kwargs):
-    if instance.email != '':
+    if instance.email != '' and not instance.username:
         user_email = instance.email
         username = user_email[:30].split("@")[0]
 
         instance.username = username
 
+
 #Item model
+
+
 class Item(models.Model):
     class Meta:
-        verbose_name = 'Menu'
+        verbose_name = 'Item'
         verbose_name_plural = 'Menu'
     title = models.CharField(max_length=30)
     price = models.DecimalField(decimal_places=2, max_digits=4, blank=False, null=False)
@@ -114,8 +142,9 @@ class Item(models.Model):
         })
 
     def save(self , *args , **kwargs):
-        value = self.title
-        self.slug = slugify(value , allow_unicode=True)
+        if not self.slug:
+            value = self.title
+            self.slug = slugify(value , allow_unicode=True)
         super().save(*args , **kwargs)
         if ItemVariation.objects.filter(item=self).exists():
             self.variations_exist = True
@@ -215,7 +244,10 @@ class OrderItem(models.Model):
         super().save(*args , **kwargs)
 
     def get_total_item_price(self):
-        return self.quantity * self.item.price
+        if not self.item_variations:
+            return self.quantity * self.item.price
+        elif self.item_variations:
+            return self.quantity * self.item_variations.price
 
     def get_total_discount_item_price(self):
         return self.quantity * self.item.discount_price
@@ -279,6 +311,25 @@ class Order(models.Model):
         return reverse("core:add-order-to-cart", kwargs={
             'ref_code': self.ref_code
         })
+
+    def delete(self, *args , **kwargs):
+        net_order = NetOrders.objects.get(
+            date=self.pickup_date
+        )
+        for order_item in self.items.all():
+            net_item = NetItem.objects.get(
+                date=net_order ,
+                slug=order_item.slug ,
+                title=order_item.title ,
+            )
+            net_item.quantity -= order_item.quantity
+            if net_item.quantity<=0:
+                net_item.delete()
+            else:
+                net_item.save()
+        super().delete(*args , **kwargs)
+
+
 
 
 class NetOrders(models.Model):

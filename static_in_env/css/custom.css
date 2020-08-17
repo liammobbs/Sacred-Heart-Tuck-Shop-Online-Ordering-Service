@@ -21,6 +21,10 @@ nav.nav-1{
     z-index:1000
 }
 
+.push-back{
+    z-index:800
+}
+
 
 div.scroll-frame{
     margin:4px, 4px;

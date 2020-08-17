@@ -28,7 +28,6 @@
 
   });
   function update_variations(slug){
-        console.log(slug)
         $('.option-content').html('').load(
         "{% url 'core:update-variations' %}?slug=" +slug
         );

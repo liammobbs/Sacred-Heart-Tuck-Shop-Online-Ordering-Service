@@ -1,7 +1,7 @@
 from .base import *
 
 DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.86.26', 'Liams-MacBook-Pro-4.local', '10.0.131.141', '10.0.129.98', '10.0.131.233', '10.0.130.77']
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.86.26', 'Liams-MacBook-Pro-4.local', '10.0.131.141', '10.0.129.98', '10.0.131.233', '10.0.130.77', '10.0.131.105', '169.254.60.14', '192.168.1.20', '10.0.104.185', 'newhost']
 
 INSTALLED_APPS += [
     'debug_toolbar'
@@ -28,7 +28,7 @@ DEBUG_TOOLBAR_PANELS = [
 
 
 def show_toolbar(request):
-    return True
+    return False
 
 
 DEBUG_TOOLBAR_CONFIG = {

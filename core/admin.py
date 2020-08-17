@@ -142,6 +142,14 @@ class NetOrdersAdmin(admin.ModelAdmin):
     def has_delete_permission(self , request , obj=None):
         return False
 
+    # def netorders_actions(self , obj):
+    #     return format_html(
+    #         '<a class="button" href="{}">Print Packing sheet</a>',
+    #      
+    #     )
+    #
+    # account_actions.short_description = 'Account Actions'
+    # account_actions.allow_tags = True
 
 class CutoffAdmin(admin.ModelAdmin):
     list_display = ["cutoff"]

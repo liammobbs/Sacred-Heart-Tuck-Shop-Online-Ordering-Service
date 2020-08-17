@@ -14,14 +14,8 @@
 
     @page {
         size: A4;
-        margin: 1cm;
-        @frame header_frame {           /* Static Frame */
-                -pdf-frame-content: header_content;
-                left: 50pt; width: 512pt; top: 50pt; height: 40pt;
-            }
-        @frame content_frame {          /* Content Frame */
-            left: 50pt; width: 512pt; top: 90pt; height: 632pt;
-        }
+        margin: 1.5cm;
+
         @frame footer_frame {           /* Another static Frame */
             -pdf-frame-content: footer_content;
             left: 50pt; width: 512pt; top: 772pt; height: 20pt;
@@ -35,12 +29,16 @@
       margin-left: 50px;
     }
 
+    table { page-break-inside:auto }
+    tr    { page-break-inside:avoid; page-break-after:auto }
+    thead { display:table-header-group }
+    tfoot { display:table-footer-group }
+
     table {
       border-collapse: collapse;
     }
 
     td {
-      height: 30px;
       vertical-align: center;
     }
 
@@ -72,6 +70,7 @@
     }
 
     .item-quantity-table{
+      font-size:10pt;
     }
 
     .base-table{
@@ -86,20 +85,29 @@
         border: 1px solid black;
     }
 
-    tbody{
-        font-size: 14px;
+    .item-quantity-row{
     }
 
-    thead {display: table-header-group;}
-    tfoot {display: table-header-group;}
+
+    tbody {
+      font-size:8pt;
+    }
+
 
   </style>
 
 </head>
 <body>
     <div class="header_frame">
-        <h1>{{today}}</h1>
+          <div>
+          <h1 style="text-align:left;display:inline">{{today}}</h1>
+          <h5 style="display:inline;text-align:right">(ctrl + p to print)</h5>
+        </div>
         <h1>Net Orders</h1>
+    </div>
+    <div id="footer_content">
+    page <pdf:pagenumber/>
+        of <pdf:pagecount/>
     </div>
     <div class="content_frame">
         <table class="">

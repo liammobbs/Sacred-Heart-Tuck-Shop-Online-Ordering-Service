@@ -46,12 +46,17 @@ def home_redirect(request):
 
 class CheckoutView(View):
     def get(self, *args, **kwargs):
+
+        # Checks if Tuck shop is currently open and sets current order to the appropriate day
         time = CutoffTime.objects.get()
         cuttime = time.cutoff
         now = datetime.datetime.now().time()
         today = datetime.date.today()
+        if now > cuttime:
+            today = today + datetime.timedelta(days=1)
+
         status_open = True
-        if now > cuttime or today.weekday() in (5, 6):
+        if today.weekday() in (5 , 6):
             status_open = False
         else:
             try:
@@ -65,6 +70,7 @@ class CheckoutView(View):
             return redirect("core:order-summary")
         else:
             try:
+                today = today.strftime("%A %d/%m")
                 order = Order.objects.get(user=self.request.user, ordered=False)
                 order.set_window()
                 user = UserProfile.objects.get(user=self.request.user)
@@ -74,6 +80,7 @@ class CheckoutView(View):
                     # 'couponform': CouponForm(),
                     'order': order,
                     'user': user,
+                    'date':today,
                     # 'DISPLAY_COUPON_FORM': True
                 }
 
@@ -115,7 +122,7 @@ class CheckoutView(View):
 
                 order.save()
 
-                messages.success(self.request , "Your order was successful!")
+                messages.success(self.request , "Your order was successful! View your orders in the 'Account & Orders' page")
                 return redirect("/")
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active order")
@@ -252,13 +259,19 @@ class OrderSummaryView(LoginRequiredMixin, View):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
 
+            # Checks if Tuck shop is currently open and sets current order to the appropriate day
+
             time = CutoffTime.objects.get()
             cuttime = time.cutoff
             now = datetime.datetime.now().time()
             today = datetime.date.today()
+            day = "today"
+            if now > cuttime:
+                today = today + datetime.timedelta(days=1)
+                day = "tomorrow"
 
             status_open = True
-            if now > cuttime or today.weekday() in (5 , 6):
+            if today.weekday() in (5 , 6): # closes tuck shop in weekend, disables ordering
                 status_open = False
             else:
                 try:
@@ -268,13 +281,18 @@ class OrderSummaryView(LoginRequiredMixin, View):
                 except ObjectDoesNotExist:
                     status_open = True
 
+            today = today.strftime("%A %d/%m")
+
             context = {
                 'object': order,
                 'status': status_open,
+                'date': today,
             }
 
             if not status_open:
                 messages.warning(self.request , 'The Tuck Shop is currently closed. You can still add items to your cart to order when we reopen.')
+            else:
+                messages.info(self.request, 'Order for ' + day + ": " + str(today))
 
             return render(self.request, 'order_summary.html', context)
 
@@ -509,7 +527,5 @@ class NetOrderPrintout(View):
             }
             return Render.render('admin/net_order_printout.html', params)
         except ObjectDoesNotExist:
-            messages.info(self.request, "There are no orders logged for today")
-
-
+            return redirect('/admin')
 

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-
+{% block head_title %}Order Summary{% endblock %}
 {% block content %}
   <main>
-    <div class="container sticky-top scroll h-75">
+    <div class="container sticky-top scroll h-75 push-back">
 
         <div class="table table-responsive table-sm text-nowrap">
             <h2>Order Summary</h2>
@@ -71,6 +71,7 @@
             </table>
 
         </div>
+        <p>Orders before 9am will be processed the same day. Orders placed after 9am will be processed the following day.</p>
 
     </div>
   </main>
