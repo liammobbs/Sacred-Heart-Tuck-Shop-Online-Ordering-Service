@@ -176,7 +176,7 @@ class ItemVariation(models.Model):
     image = models.ImageField(upload_to='media/images/' ,
                               default='media/images/no-image-available-icon-template-260nw-1036735678.jpg_xctPfVt.png')
     slug = models.SlugField(default='')
-    option_not_available = models.BooleanField(default=False)
+    not_available = models.BooleanField(default=False)
 
     class Meta:
         unique_together = (

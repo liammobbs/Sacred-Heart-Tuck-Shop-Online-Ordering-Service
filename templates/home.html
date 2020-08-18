@@ -102,9 +102,9 @@
 
   <!--Pagination-->
   <footer>
-      <nav class="d-flex justify-content-center fadeIn fixed-bottom bg-white border-top">
+      <nav class="d-flex align-items-center justify-content-center fadeIn fixed-bottom bg-white border-top" style="height:50px">
           {% if is_paginated %}
-          <ul class="pagination pg-blue mx-auto my-auto p-2">
+          <ul class="pagination pg-blue m-auto">
 
             {% if page_obj.has_previous %}
             <li class="page-item">

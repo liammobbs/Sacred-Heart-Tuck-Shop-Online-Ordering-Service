@@ -39,7 +39,7 @@ def is_valid_form(values):
     return valid
 
 
-def home_redirect(request):
+def home_redirect(request): # redirect for empty path to 'all' path
     response = redirect("core:all")
     return response
 
@@ -129,8 +129,55 @@ class CheckoutView(View):
             return redirect("core:order-summary")
 
 
+class OrderSummaryView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+
+            # Checks if Tuck shop is currently open and sets current order to the appropriate day
+
+            time = CutoffTime.objects.get()
+            cuttime = time.cutoff
+            now = datetime.datetime.now().time()
+            today = datetime.date.today()
+            day = "today"
+            if now > cuttime:
+                today = today + datetime.timedelta(days=1)
+                day = "tomorrow"
+
+            status_open = True
+            if today.weekday() in (5 , 6): # closes tuck shop in weekend, disables ordering
+                status_open = False
+            else:
+                try:
+                    check = ClosedDate.objects.filter(closed_dates=today)
+                    if check.exists():
+                        status_open = False
+                except ObjectDoesNotExist:
+                    status_open = True
+
+            today = today.strftime("%A %d/%m")
+
+            context = {
+                'object': order,
+                'status': status_open,
+                'date': today,
+            }
+
+            if not status_open:
+                messages.warning(self.request , 'The Tuck Shop is currently closed. You can still add items to your cart to order when we reopen.')
+            else:
+                messages.info(self.request, 'Order for ' + day + ": " + str(today))
+
+            return render(self.request, 'order_summary.html', context)
+
+        except ObjectDoesNotExist:
+            messages.warning(self.request, "You do not have an active order")
+            return redirect("/")
+
+
 class AccountView(View):
-    def get (self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         try:
             orders = Order.objects.filter(user=self.request.user, ordered=True).order_by('-order_date')
             profile = UserProfile.objects.get(user=self.request.user)
@@ -145,17 +192,11 @@ class AccountView(View):
             return redirect("core:home")
 
 
-
-'''
-Search bar
-'''
-
-
 # Ajax request to update modal
 def update_variations(request):
     slug = request.GET.get('slug')
     item = Item.objects.get(slug=slug)
-    variations_list = item.itemvariation_set.all() #returns all foreignkey relations for an item (backwards direction)
+    variations_list = item.itemvariation_set.all() # returns all foreignkey relations for an item (backwards direction)
     context = {
         'item': item,
         'variations_list': variations_list,
@@ -163,6 +204,11 @@ def update_variations(request):
     return render(request, 'snippets/option_modal.html', context)
 
 
+# ------------------------------------------------- Category and searching views ---------------------------------------
+
+'''
+Search bar
+'''
 def search(request):
     query = request.GET.get('q', '')
     if query:
@@ -253,58 +299,14 @@ class DrinksView(ListView):
     paginate_by = 12
     template_name = "home.html"
 
+#-----------------------------------------------------------------------------------------------------------------------
 
-class OrderSummaryView(LoginRequiredMixin, View):
-    def get(self, *args, **kwargs):
-        try:
-            order = Order.objects.get(user=self.request.user, ordered=False)
 
-            # Checks if Tuck shop is currently open and sets current order to the appropriate day
 
-            time = CutoffTime.objects.get()
-            cuttime = time.cutoff
-            now = datetime.datetime.now().time()
-            today = datetime.date.today()
-            day = "today"
-            if now > cuttime:
-                today = today + datetime.timedelta(days=1)
-                day = "tomorrow"
-
-            status_open = True
-            if today.weekday() in (5 , 6): # closes tuck shop in weekend, disables ordering
-                status_open = False
-            else:
-                try:
-                    check = ClosedDate.objects.filter(closed_dates=today)
-                    if check.exists():
-                        status_open = False
-                except ObjectDoesNotExist:
-                    status_open = True
-
-            today = today.strftime("%A %d/%m")
-
-            context = {
-                'object': order,
-                'status': status_open,
-                'date': today,
-            }
-
-            if not status_open:
-                messages.warning(self.request , 'The Tuck Shop is currently closed. You can still add items to your cart to order when we reopen.')
-            else:
-                messages.info(self.request, 'Order for ' + day + ": " + str(today))
-
-            return render(self.request, 'order_summary.html', context)
-
-        except ObjectDoesNotExist:
-            messages.warning(self.request, "You do not have an active order")
-            return redirect("/")
 
 
 class ItemDetailView(DetailView):
     model = Item
-
-
     template_name = "item.html"
 
 
@@ -326,14 +328,15 @@ def add_order_to_cart(request, ref_code):
     )
 
     for element in past_order.items.all():
-        if element.item or element.item_variations:
+        #error checking statements to check if the item is marked as avaliable or still exists item must be available (must be pure item and not variation or must be variation and available)
+        if not element.item.not_available and ((element.item and not element.item_variations) or (element.item_variations and not element.item_variations.not_available and not element.item_variations.item.not_available)):
             element.pk = None
             order_item = element
             order_item.ordered = False
             order_item.save()
             order.items.add(order_item)
         else:
-            messages.info(request , "This item is no longer available.")
+            messages.info(request , "One or more items in your previous order are longer available.")
 
 
     messages.info(request , "This order was added to your cart.")
