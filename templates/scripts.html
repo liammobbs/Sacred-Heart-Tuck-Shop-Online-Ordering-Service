@@ -15,6 +15,11 @@
 
 <!-- Modal data refresh function -->
 <script type="text/javascript">
+    //window resize to fix ios adress bar issue
+    window.onresize = function() {
+    document.body.height = window.innerHeight;
+    }
+    window.onresize(); // called to initially set the height.
 
   $(document).on('click','.open-OptionModal',function(){
     let slug = $(this).data('slug');
@@ -32,6 +37,7 @@
         "{% url 'core:update-variations' %}?slug=" +slug
         );
         }
+
 
 </script>
 

@@ -21,6 +21,12 @@ nav.nav-1{
     z-index:1000
 }
 
+.fix-content{
+    overflow:hidden;
+    position:fixed !important;
+}
+
+
 .push-back{
     z-index:800
 }

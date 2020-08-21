@@ -328,7 +328,7 @@ def add_order_to_cart(request, ref_code):
     )
 
     for element in past_order.items.all():
-        #error checking statements to check if the item is marked as avaliable or still exists item must be available (must be pure item and not variation or must be variation and available)
+        #error checking statements to check if the item is marked as avaliable or still exists, item must be available (must be pure item and not variation or must be variation and available)
         if not element.item.not_available and ((element.item and not element.item_variations) or (element.item_variations and not element.item_variations.not_available and not element.item_variations.item.not_available)):
             element.pk = None
             order_item = element
