@@ -39,7 +39,7 @@ def is_valid_form(values):
     return valid
 
 
-def home_redirect(request): # redirect for empty path to 'all' path
+def home_redirect(request):  # redirect for empty path to 'all' path
     response = redirect("core:all")
     return response
 
@@ -310,7 +310,7 @@ class ItemDetailView(DetailView):
     template_name = "item.html"
 
 
-def add_order_to_cart(request, ref_code):
+def add_order_to_cart(request, ref_code): # for repeat order function, adds all items of previous order to cart.
     past_order = get_object_or_404(Order, ref_code=ref_code)
     order_qs = Order.objects.filter(user=request.user, ordered=False)
 
@@ -345,8 +345,10 @@ def add_order_to_cart(request, ref_code):
 
 @login_required
 def add_to_cart(request, slug):
-    try:
-        variation_item = ItemVariation.objects.get(slug=slug)
+    # try and except block to differentiate if the object is a pure item or a variation of an item
+    try:    
+        variation_item = ItemVariation.objects.get(slug=slug) # will produce ObjectDoesNotExist error if the object is 
+                                                              # not a variation
         item = variation_item.item
         order_item, created = OrderItem.objects.get_or_create(
             item=item,
@@ -356,7 +358,7 @@ def add_to_cart(request, slug):
             ordered=False
         )
 
-    except ObjectDoesNotExist:
+    except ObjectDoesNotExist: # item is pure item (not variation)
         item = get_object_or_404(Item, slug=slug)
         order_item, created = OrderItem.objects.get_or_create(
             item=item,
@@ -367,11 +369,11 @@ def add_to_cart(request, slug):
 
     order_qs = Order.objects.filter(user=request.user, ordered=False)
 
-    if order_qs.exists():
+    if order_qs.exists(): # checks if there is a current order
         order = order_qs[0]
         # check if the order item is in the order
-        if order.items.filter(slug=slug).exists(): # problematic statement as there are seperate slugs for variations and items
-            if order_item.quantity < order_item.item.maximum_quantity:
+        if order.items.filter(slug=slug).exists():  # checks if item exists in order
+            if order_item.quantity < order_item.item.maximum_quantity:  # maximum quantity check, might remove later
                 order_item.quantity += 1
                 order_item.save()
                 messages.info(request , "This item quantity was updated.")
@@ -481,7 +483,7 @@ def remove_single_item_from_cart(request, slug):
 
 '''
 
-Printout Views for admin page
+Printout Views for admin page using xhtml2pdf to create pdfs from templates
 
 '''
 

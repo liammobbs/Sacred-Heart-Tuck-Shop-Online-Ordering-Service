@@ -80,7 +80,10 @@ class CutoffTime(models.Model):
             raise ValidationError('There is can be only one Cut off time instance')
         return super(CutoffTime, self).save(*args, **kwargs)
 
-#user profile data
+
+''' User Profile Data '''
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     firstname = models.CharField(default='', max_length=100)
@@ -115,7 +118,7 @@ def update_username_from_email(sender, instance, **kwargs):
         instance.username = username
 
 
-#Item model
+# Item model
 
 
 class Item(models.Model):
@@ -127,8 +130,9 @@ class Item(models.Model):
     discount_price = models.DecimalField(decimal_places=2,blank=True, null=True, max_digits=4)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
     slug = models.SlugField(default='', editable=False)
-    description = models.TextField(blank = True, null = True)
-    image = models.ImageField(upload_to='media/images/', default='media/images/no-image-available-icon-template-260nw-1036735678.jpg_xctPfVt.png')
+    description = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='media/images/', default='media/images/no-image-available-icon-template-260nw'
+                                                                 '-1036735678.jpg_xctPfVt.png') 
     maximum_quantity = models.IntegerField(default=10)
     not_available = models.BooleanField(default=False)
     variations_exist = models.BooleanField(default=False, editable=False)
@@ -141,16 +145,16 @@ class Item(models.Model):
             'slug': self.slug
         })
 
-    def save(self , *args , **kwargs):
+    def save(self , *args , **kwargs):  # save method overide
         if not self.slug:
             value = self.title
-            self.slug = slugify(value , allow_unicode=True)
-        super().save(*args , **kwargs)
+            self.slug = slugify(value, allow_unicode=True)
+        super().save(*args, **kwargs)
         if ItemVariation.objects.filter(item=self).exists():
             self.variations_exist = True
         else:
             self.variations_exist = False
-        super().save(*args , **kwargs)
+        super().save(*args, **kwargs)
 
     def get_add_to_cart_url(self):
         return reverse("core:add-to-cart", kwargs={
@@ -170,7 +174,7 @@ class Item(models.Model):
 
 class ItemVariation(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE) # deletes Item variation when item is deleted
-    variation = models.CharField(max_length=30)# e.g. flavour or volume (for drinks)
+    variation = models.CharField(max_length=30)  # e.g. flavour or volume (for drinks)
     price = models.DecimalField("Price (if different from base price)", decimal_places=2, max_digits=4, null=True, blank=True)
     # discount_price = models.DecimalField(decimal_places=2 , blank=True , null=True , max_digits=4)
     image = models.ImageField(upload_to='media/images/' ,
@@ -224,7 +228,7 @@ class OrderItem(models.Model):
     price = models.DecimalField(default=0.00, decimal_places=2 , max_digits=4)
     slug = models.SlugField(default='')
 
-    item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, blank=True) #sets field to null to protect model
+    item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, blank=True) # sets field to null to protect model
     item_variations = models.ForeignKey(ItemVariation, on_delete=models.SET_NULL, null=True)
 
     quantity = models.IntegerField(default=1)
@@ -281,7 +285,7 @@ class Order(models.Model):
     3. add pickup time
     '''
 
-    def set_window(self):
+    def set_window(self):  # currently unused, will create proper method later
         today = datetime.date.today()
         current_window = today
 

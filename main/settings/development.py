@@ -1,6 +1,6 @@
 from .base import *
 
-DEBUG = True
+DEBUG = True  # currently running in development
 ALLOWED_HOSTS = ['127.0.0.1', '192.168.86.26','192.168.86.143', 'Liams-MacBook-Pro-4.local', '10.0.131.141', '10.0.129.98', '10.0.131.233', '10.0.130.77', '10.0.131.105', '169.254.60.14', '192.168.1.20', '10.0.104.185', 'newhost']
 
 INSTALLED_APPS += [
