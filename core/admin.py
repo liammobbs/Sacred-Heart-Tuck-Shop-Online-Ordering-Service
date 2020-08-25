@@ -145,7 +145,7 @@ class NetOrdersAdmin(admin.ModelAdmin):
     # def netorders_actions(self , obj):
     #     return format_html(
     #         '<a class="button" href="{}">Print Packing sheet</a>',
-    #      
+    #
     #     )
     #
     # account_actions.short_description = 'Account Actions'
@@ -181,9 +181,6 @@ class ItemAdmin(admin.ModelAdmin):
     search_fields = ['title']
 
     inlines = [ItemVariationInLineAdmin]
-
-
-
 
 
 admin.site.site_header = "Sacred Heart Tuck Shop Admin"

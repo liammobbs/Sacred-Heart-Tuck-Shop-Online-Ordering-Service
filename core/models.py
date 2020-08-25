@@ -118,8 +118,7 @@ def update_username_from_email(sender, instance, **kwargs):
         instance.username = username
 
 
-# Item model
-
+''' Item model '''
 
 class Item(models.Model):
     class Meta:
@@ -172,6 +171,9 @@ class Item(models.Model):
         })
 
 
+'''Variation model'''
+
+
 class ItemVariation(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE) # deletes Item variation when item is deleted
     variation = models.CharField(max_length=30)  # e.g. flavour or volume (for drinks)
@@ -217,6 +219,9 @@ class ItemVariation(models.Model):
         return reverse("core:add-to-cart", kwargs={
             'slug': self.slug
         })
+
+
+'''Model for items in an order'''
 
 
 class OrderItem(models.Model):
@@ -278,7 +283,6 @@ class Order(models.Model):
     order_total = models.DecimalField(decimal_places=2, max_digits=6, default=0.00)
     # coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, blank=True, null=True)
 
-
     '''
     1. Item added to cart
     2. Add pickup date
@@ -332,8 +336,6 @@ class Order(models.Model):
             else:
                 net_item.save()
         super().delete(*args , **kwargs)
-
-
 
 
 class NetOrders(models.Model):

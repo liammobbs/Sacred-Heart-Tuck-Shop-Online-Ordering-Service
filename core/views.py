@@ -65,7 +65,7 @@ class CheckoutView(View):
                     status_open = False
             except ObjectDoesNotExist:
                 status_open = True
-                
+
         if not status_open:
             return redirect("core:order-summary")
         else:
@@ -165,7 +165,7 @@ class OrderSummaryView(LoginRequiredMixin, View):
             }
 
             if not status_open:
-                messages.warning(self.request , 'The Tuck Shop is currently closed. You can still add items to your cart to order when we reopen.')
+                messages.warning(self.request, 'The Tuck Shop is currently closed. You can still add items to your cart to order when we reopen.')
             else:
                 messages.info(self.request, 'Order for ' + day + ": " + str(today))
 
@@ -192,7 +192,7 @@ class AccountView(View):
             return redirect("core:home")
 
 
-# Ajax request to update modal
+''' Ajax request to update modal '''
 def update_variations(request):
     slug = request.GET.get('slug')
     item = Item.objects.get(slug=slug)
@@ -206,9 +206,9 @@ def update_variations(request):
 
 # ------------------------------------------------- Category and searching views ---------------------------------------
 
-'''
-Search bar
-'''
+''' Search bar logic '''
+
+
 def search(request):
     query = request.GET.get('q', '')
     if query:
@@ -299,10 +299,7 @@ class DrinksView(ListView):
     paginate_by = 12
     template_name = "home.html"
 
-#-----------------------------------------------------------------------------------------------------------------------
-
-
-
+# ----------------------------------------------------------------------------------------------------------------------
 
 
 class ItemDetailView(DetailView):
@@ -310,7 +307,13 @@ class ItemDetailView(DetailView):
     template_name = "item.html"
 
 
-def add_order_to_cart(request, ref_code): # for repeat order function, adds all items of previous order to cart.
+
+@login_required
+def add_order_to_cart(request, ref_code):
+    """
+    Repeat order function, adds all items of selected order to cart.
+    """
+
     past_order = get_object_or_404(Order, ref_code=ref_code)
     order_qs = Order.objects.filter(user=request.user, ordered=False)
 
@@ -328,7 +331,7 @@ def add_order_to_cart(request, ref_code): # for repeat order function, adds all 
     )
 
     for element in past_order.items.all():
-        #error checking statements to check if the item is marked as avaliable or still exists, item must be available (must be pure item and not variation or must be variation and available)
+        # error checking statements to check if the item is marked as avaliable or still exists, item must be available (must be pure item and not variation or must be variation and available)
         if not element.item.not_available and ((element.item and not element.item_variations) or (element.item_variations and not element.item_variations.not_available and not element.item_variations.item.not_available)):
             element.pk = None
             order_item = element
@@ -336,19 +339,17 @@ def add_order_to_cart(request, ref_code): # for repeat order function, adds all 
             order_item.save()
             order.items.add(order_item)
         else:
-            messages.info(request , "One or more items in your previous order are longer available.")
+            messages.info(request, "One or more items in your previous order are longer available.")
 
-
-    messages.info(request , "This order was added to your cart.")
+    messages.info(request, "This order was added to your cart.")
     return redirect("core:order-summary")
 
 
 @login_required
 def add_to_cart(request, slug):
     # try and except block to differentiate if the object is a pure item or a variation of an item
-    try:    
-        variation_item = ItemVariation.objects.get(slug=slug) # will produce ObjectDoesNotExist error if the object is 
-                                                              # not a variation
+    try:
+        variation_item = ItemVariation.objects.get(slug=slug)  # will produce ObjectDoesNotExist error if the object is not a variation running except statement
         item = variation_item.item
         order_item, created = OrderItem.objects.get_or_create(
             item=item,
@@ -358,7 +359,7 @@ def add_to_cart(request, slug):
             ordered=False
         )
 
-    except ObjectDoesNotExist: # item is pure item (not variation)
+    except ObjectDoesNotExist:  # item is pure item (not variation)
         item = get_object_or_404(Item, slug=slug)
         order_item, created = OrderItem.objects.get_or_create(
             item=item,

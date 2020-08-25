@@ -12,6 +12,7 @@ BREAK_CHOICES =(
     'L', 'Lunch'
 )
 
+
 class CheckoutForm(ModelForm):
     class Meta:
         model = Order
