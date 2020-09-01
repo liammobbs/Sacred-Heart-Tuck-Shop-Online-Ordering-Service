@@ -12,3 +12,32 @@
   new WOW().init();
 
 </script>
+
+<!-- Modal data refresh function -->
+<script type="text/javascript">
+    //window resize to fix ios adress bar issue
+    window.onresize = function() {
+    document.body.height = window.innerHeight;
+    }
+    window.onresize(); // called to initially set the height.
+
+  $(document).on('click','.open-OptionModal',function(){
+    let slug = $(this).data('slug');
+    let object = $(this).data('object');
+    update_variations(slug)
+
+
+    $(".modal-body #object").text(object);
+    $(".modal-body #slug").text(slug);
+    $('#OptionModal').modal('show');
+
+  });
+  function update_variations(slug){
+        $('.option-content').html('').load(
+        "{% url 'core:update-variations' %}?slug=" +slug
+        );
+        }
+
+
+</script>
+

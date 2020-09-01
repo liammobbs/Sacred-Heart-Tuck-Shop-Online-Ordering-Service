@@ -7,8 +7,10 @@ html, body {
 nav.nav-1{
     background-color:SteelBlue;
     border-bottom-style:solid;
-    border-color:Crimson;
+    border-color:#ED1C24;
     border-width:3px;
+    z-index:1020
+
 }
 
 .main-content{
@@ -16,7 +18,17 @@ nav.nav-1{
     position:fixed !important;
     right:0;
     left:0;
-    z-index:auto;
+    z-index:1000
+}
+
+.fix-content{
+    overflow:hidden;
+    position:fixed !important;
+}
+
+
+.push-back{
+    z-index:800
 }
 
 
@@ -58,5 +70,22 @@ div.scroll{
 fixed{
     overflow:hidden;
     position: fixed;
+}
+
+.borderless td, .borderless th {
+    border: none;
+}
+
+
+
+.modal-backdrop {
+    z-index:1010 !important;
+    display: none;
+}
+
+.modal-dialog {
+    margin: 2px auto;
+    z-index: 1040 !important;
+    pointer-events: all;
 }
 

@@ -13,9 +13,14 @@
   <style type="text/css">
 
     @page {
-    size: A4;
-    margin: 1cm;
+        size: A4;
+        margin: 1.5cm;
+
+        @frame footer_frame {           /* Another static Frame */
+            -pdf-frame-content: footer_content;
+            left: 50pt; width: 512pt; top: 772pt; height: 20pt;
         }
+     }
 
     body{
       margin-top: 20px;
@@ -24,12 +29,16 @@
       margin-left: 50px;
     }
 
+    table { page-break-inside:auto }
+    tr    { page-break-inside:avoid; page-break-after:auto }
+    thead { display:table-header-group }
+    tfoot { display:table-footer-group }
+
     table {
       border-collapse: collapse;
     }
 
     td {
-      height: 30px;
       vertical-align: center;
     }
 
@@ -61,6 +70,7 @@
     }
 
     .item-quantity-table{
+      font-size:10pt;
     }
 
     .base-table{
@@ -75,23 +85,46 @@
         border: 1px solid black;
     }
 
+    .item-quantity-row{
+    }
+
+
+    tbody {
+      font-size:8pt;
+    }
+
+
   </style>
-    <h1>{{today}}</h1>
+
 </head>
 <body>
-  <div class="">
-    <table class="">
-      <th>Item</th>
-      <th>Quantity</th>
-      {% for object in queryset %}
-        {% for element in object.net_item.all %}
-              <tr>
-                  <td class="item-column text">{{element.item}}</td>
-                  <td class="quantity-column text">{{element.quantity}}</td>
-              </tr>
-            {% endfor %}
-      {% endfor %}
-    </table>
-  </div>
+    <div class="header_frame">
+          <div>
+          <h1 style="text-align:left;display:inline">{{today}}</h1>
+          <h5 style="display:inline;text-align:right">(ctrl + p to print)</h5>
+        </div>
+        <h1>Net Orders</h1>
+    </div>
+    <div id="footer_content">
+    page <pdf:pagenumber/>
+        of <pdf:pagecount/>
+    </div>
+    <div class="content_frame">
+        <table class="">
+            <thead>
+              <th>Item</th>
+              <th>Quantity</th>
+            </thead>
+            <tbody>
+                {% for element in queryset.netitem_set.all %}
+                      <tr>
+                          <td class="item-column text">{{element.title}}</td>
+                          <td class="quantity-column text">{{element.quantity}}</td>
+                      </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 </body>
 </html>

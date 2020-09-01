@@ -1,6 +1,6 @@
 {% load custom_tags %}
 <!--Menubar-->
-    <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-4 mb-4">
+    <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mb-4 h6">
 
       <!-- Navbar brand -->
       <span class="navbar-brand">Categories:</span>
@@ -17,24 +17,24 @@
         <!-- Links -->
         <ul class="navbar-nav mr-auto">
           <li class="nav-item {% is_active request 'core:all' %}">
-            <a class="nav-link" href="/">All
+            <a class="nav-link" href="{% url 'core:all' %}">All
               <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item {% is_active request 'core:hot-food' %}">
-            <a class="nav-link" href="/hot-food">Hot Food</a>
+            <a class="nav-link" href="{% url 'core:hot-food' %}">Hot Food</a>
           </li>
           <li class="nav-item {% is_active request 'core:cold-food' %}">
-            <a class="nav-link" href="/cold-food">Cold Food</a>
+            <a class="nav-link" href="{% url 'core:cold-food' %}">Cold Food</a>
           </li>
           <li class="nav-item {% is_active request 'core:snacks' %}">
-            <a class="nav-link" href="/snacks">Snacks</a>
+            <a class="nav-link" href="{% url 'core:snacks' %}">Snacks</a>
           </li>
           <li class="nav-item {% is_active request 'core:frozen' %}">
-            <a class="nav-link" href="/frozen">Frozen</a>
+            <a class="nav-link" href="{% url 'core:frozen' %}">Frozen</a>
           </li>
           <li class="nav-item {% is_active request 'core:drinks' %}">
-            <a class="nav-link" href="/drinks">Drinks</a>
+            <a class="nav-link" href="{% url 'core:drinks' %}">Drinks</a>
           </li>
 
         </ul>

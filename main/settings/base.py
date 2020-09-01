@@ -19,6 +19,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+   	'allauth.socialaccount.providers.microsoft',
+
     'crispy_forms',
     'django_countries',
 
@@ -36,7 +38,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'djecommerce.urls'
+ROOT_URLCONF = 'main.urls'
 
 TEMPLATES = [
     {
@@ -55,7 +57,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'djecommerce.wsgi.application'
+WSGI_APPLICATION = 'main.wsgi.application'
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = "Pacific/Auckland"
@@ -77,11 +79,18 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 )
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
+SOCIALACCOUNT_STORE_TOKENS = False
+
 SOCIALACCOUNT_PROVIDERS = {
+    'microsoft': {
+            'TENANT': '{tenant}',
+        },
+
     'google': {
         'SCOPE': [
             'profile',
