@@ -9,6 +9,8 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
+from django.urls import reverse
+from django.db.models import signals
 import datetime
 
 
@@ -101,22 +103,43 @@ class UserProfile(models.Model):
         super().save(*args, **kwargs)
 
 
+
 def userprofile_receiver(sender, instance, created, *args, **kwargs):
     if created:
         userprofile = UserProfile.objects.create(user=instance)
 
-    if kwargs.get('raw', False):
-        post_save.connect(userprofile_receiver, sender=settings.AUTH_USER_MODEL)
 
+post_save.connect(userprofile_receiver, sender=settings.AUTH_USER_MODEL)
+
+def delete_user(sender, instance=None, **kwargs): #deletes user when user profile is deleted to prevent errors
+    try:
+        instance.user
+    except User.DoesNotExist:
+        pass
+    else:
+        instance.user.delete()
+signals.post_delete.connect(delete_user, sender=UserProfile)
 
 @receiver(pre_save, sender=User)
 def update_username_from_email(sender, instance, **kwargs):
-    if instance.email != '' and not instance.username:
+    if instance.email != '':
         user_email = instance.email
         username = user_email[:30].split("@")[0]
 
         instance.username = username
 
+
+
+# ''' Category model'''
+# class Categories(models.Model):
+#     category = models.CharField('', max_length=10)
+#     slug = models.SlugField(default='', editable=False)
+#
+#     def save(self):
+#         if not self.slug:
+#             value = self.category
+#             self.slug = slugify(value, allow_unicode=True)
+#         super().save(*args, **kwargs)
 
 ''' Item model '''
 
@@ -144,7 +167,7 @@ class Item(models.Model):
             'slug': self.slug
         })
 
-    def save(self , *args , **kwargs):  # save method overide
+    def save(self, *args, **kwargs):  # save method overide
         if not self.slug:
             value = self.title
             self.slug = slugify(value, allow_unicode=True)
@@ -242,14 +265,15 @@ class OrderItem(models.Model):
         return f"{self.quantity} of {self.title}"
 
     def save(self, *args, **kwargs):
-        if self.item_variations:
-            self.title = str(self.item.title + ' (' + self.item_variations.variation + ')')
-            self.price = self.item_variations.price
-            self.slug = self.item_variations.slug
-        elif self.item:
-            self.title = self.item.title
-            self.price = self.item.price
-            self.slug = self.item.slug
+        if self.ordered == False:
+            if self.item_variations:
+                self.title = str(self.item.title + ' (' + self.item_variations.variation + ')')
+                self.price = self.item_variations.price
+                self.slug = self.item_variations.slug
+            elif self.item:
+                self.title = self.item.title
+                self.price = self.item.price
+                self.slug = self.item.slug
         super().save(*args , **kwargs)
 
     def get_total_item_price(self):
@@ -282,6 +306,7 @@ class Order(models.Model):
     payment_option = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='B')
     order_total = models.DecimalField(decimal_places=2, max_digits=6, default=0.00)
     # coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, blank=True, null=True)
+
 
     '''
     1. Item added to cart
@@ -336,6 +361,15 @@ class Order(models.Model):
             else:
                 net_item.save()
         super().delete(*args , **kwargs)
+
+
+class Refund(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    reason = models.TextField()
+    accepted = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.order.ref_code}"
 
 
 class NetOrders(models.Model):

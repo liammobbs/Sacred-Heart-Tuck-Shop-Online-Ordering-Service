@@ -69,8 +69,8 @@
 
 </head>
 
-<body>
-    <div class="sticky-top mb-4">
+<body class="{% block bodyclasses %}{% endblock %}">
+    <div class="sticky-top mb-3">
         <div>
             <!-- primary navbar -->
             {% include "navbar.html" %}

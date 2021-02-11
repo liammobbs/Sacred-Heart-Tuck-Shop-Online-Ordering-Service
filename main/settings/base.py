@@ -23,6 +23,7 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'django_countries',
+    # 'django_admin_shell',
 
     # My Apps
     'core',
@@ -58,6 +59,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'main.wsgi.application'
+ASGI_APPLICATION = 'main.asgi.application'
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = "Pacific/Auckland"

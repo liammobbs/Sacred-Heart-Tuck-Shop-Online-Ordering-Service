@@ -1,26 +1,29 @@
 {% extends "base.html" %}
 {% block head_title %}Sacred Heart Tuck Shop{% endblock %}
+{% block bodyclasses %}main-content main-div{% endblock %}
 {% block navcontent %}
+<!-- navbar is in here-->
 
 {% endblock %}
 
-<!-- navbar is in here-->
+
 {% block content %}
   <main>
 
-    <div class="main-content main-div">
+    <div>
           <div class="container">
             {% include "menubar.html" %}
           </div>
-      <!-- Select Option Modal -->
+
+      <div class="border-top border-bottom">
+        <!-- Select Option Modal -->
           <div class="container">
-            <div id="OptionModal" class = "mt-3 my-modal modal fade" style="position:absolute;-webkit-animation-name: animatetop;z-index:2000">
-              <div class="modal-lg modal-dialog option-content">
+            <div id="OptionModal" class = "my-modal modal fade" style="position:absolute;-webkit-animation-name:animatetop;z-index:2000">
+              <div class="modal-lg modal-dialog option-content" style="padding-top:170px">
                   {% include 'snippets/option_modal.html' %}
               </div>
             </div>
           </div>
-      <div class="border-top border-bottom">
         <div class="scroll-frame scroll wow fadeIn">
           <!--Section: Products v.3-->
           <section class="text-center mb-1 container">

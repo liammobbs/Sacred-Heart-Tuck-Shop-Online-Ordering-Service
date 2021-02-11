@@ -10,7 +10,7 @@
     <div class="container mt-4">
       <section class="mb-4">
         <div class="row wow fadeIn">
-          <div class='col-6 offset-3'>
+          <div class='col-6 offset-3 mt-2'>
               <h1>{% trans "Sign In" %}</h1>
 
               {% get_providers as socialaccount_providers %}
@@ -20,18 +20,29 @@
 <!--              for an account and sign in below:{% endblocktrans %}</p>-->
 
 <!--             Social Accounts-->
-              <p>{% blocktrans with site.name as site_name %}Please sign in with one
-              of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-              for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+              <p class="mt-4">Please sign in with Google using your Sacred Heart login.</p>
                 <div class="socialaccount_ballot">
 
-                  <ul class="socialaccount_providers">
-                    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                  </ul>
+<!--                  <ul class="socialaccount_providers">-->
+<!--                    {% include "socialaccount/snippets/provider_list.html" with process="login" action="reauthenticate" %}-->
+<!--                  </ul>-->
 
-                    <div class="login-or">{% trans 'or' %}</div>
+                    <div class="row pb-4">
+                      <div class="col">
+                        <a class="btn btn-block socialaccount_provider" href="{% provider_login_url 'google' action='reauthenticate' %}"
+                           role="button" style="text-transform:none">
+                          <img width="20px" style="margin-bottom:3px; margin-right:5px"
+                               alt="Google sign-in"
+                               src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                          Login with Google
+                        </a>
+                      </div>
+                    </div>
+
+                    <div class="login-or mb-3">{% trans 'Or' %} Sign in below: </div>
 
                 </div>
+
 
               {% include "socialaccount/snippets/login_extra.html" %}
 
@@ -40,18 +51,24 @@
               <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
               {% endif %}
 
-              <form class="login" method="POST" action="{% url 'account_login' %}">
+              <form class="login mb-3" method="POST" action="{% url 'account_login' %}">
                 {% csrf_token %}
                 {{ form|crispy }}
                 {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                 {% endif %}
 <!--                <a class="btn btn-default" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>-->
-                <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
+                <button class="btn btn-block btn-primary" type="submit">{% trans "Sign In" %}</button>
+
+              </form>
+
+              <p>{% blocktrans with site.name as site_name %}Don't have an account?
+                  <a href="{{ signup_url }}">Sign up</a>
+                  for a {{ site_name }} account. {% endblocktrans %}
+              </p>
 
 <!--                 Admin login Shortcut-->
-                <a  class ="btn btn-default" href = "/admin/">Admin Login</a>
-              </form>
+                <a  class ="btn btn-default mt-4" href = "/admin/">Admin Login</a>
 
           </div>
         </div>

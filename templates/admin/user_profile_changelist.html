@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'admin/change_list.html' %}
+{% load i18n admin_static %}
 
-</body>
-</html>
+{% block object-tools %}
+    <div>
+        <form action="clear_user_data/" method="POST">
+            {% csrf_token %}
+            <p class="deletelink-box">
+                <button type="submit" class="deletelink">Clear User Data</button>
+            </p>
+        </form>
+    </div>
+    <br />
+    {{ block.super }}
+{% endblock %}

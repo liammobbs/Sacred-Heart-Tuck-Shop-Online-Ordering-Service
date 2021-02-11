@@ -20,14 +20,6 @@ class CheckoutForm(ModelForm):
                   'payment_option')
 
 
-def create_option_form(self):
-
-    class SelectOptionForm(forms.ModelForm):
-        variation_item = forms.ModelChoiceField(queryset=ItemVariation.objects.filter(item=self))
-
-    return SelectOptionForm
-
-
 # class CouponForm(forms.Form):
 #     code = forms.CharField(widget=forms.TextInput(attrs={
 #         'class': 'form-control',
@@ -36,13 +28,13 @@ def create_option_form(self):
 #         'aria-describedby': 'basic-addon2'
 #     }))
 
-#
-# class RefundForm(forms.Form):
-#     ref_code = forms.CharField()
-#     message = forms.CharField(widget=forms.Textarea(attrs={
-#         'rows': 4
-#     }))
-#     email = forms.EmailField()
+
+class RefundForm(forms.Form):
+    ref_code = forms.CharField()
+    message = forms.CharField(widget=forms.Textarea(attrs={
+        'rows': 4
+    }))
+    email = forms.EmailField()
 
 #
 # class PaymentForm(forms.Form):

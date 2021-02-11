@@ -7,8 +7,9 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, View, TemplateView
 from django.shortcuts import redirect
 from django.db.models import Q
-from .forms import CheckoutForm, create_option_form
+from .forms import CheckoutForm
 from copy import deepcopy
+
 
 from .models import *
 from .render import Render
@@ -128,6 +129,40 @@ class CheckoutView(View):
             messages.warning(self.request, "You do not have an active order")
             return redirect("core:order-summary")
 
+class RequestRefundView(View):
+    def get(self, *args, **kwargs):
+        form = RefundForm()
+        context = {
+            'form': form
+        }
+        return render(self.request, "request_refund.html", context)
+
+    def post(self, *args, **kwargs):
+        form = RefundForm(self.request.POST)
+        if form.is_valid():
+            ref_code = form.cleaned_data.get('ref_code')
+            message = form.cleaned_data.get('message')
+            email = form.cleaned_data.get('email')
+            # edit the order
+            try:
+                order = Order.objects.get(ref_code=ref_code)
+                order.refund_requested = True
+                order.save()
+
+                # store the refund
+                refund = Refund()
+                refund.order = order
+                refund.reason = message
+                refund.email = email
+                refund.save()
+
+                messages.info(self.request, "Your request was received.")
+                return redirect("core:request-refund")
+
+            except ObjectDoesNotExist:
+                messages.info(self.request, "This order does not exist.")
+                return redirect("core:request-refund")
+
 
 class OrderSummaryView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
@@ -187,7 +222,7 @@ class AccountView(View):
 
             }
             return render(self.request, "account.html", context)
-        except TypeError:
+        except ObjectDoesNotExist:
             messages.info(self.request, "You are not currently signed in")
             return redirect("core:home")
 
@@ -196,7 +231,7 @@ class AccountView(View):
 def update_variations(request):
     slug = request.GET.get('slug')
     item = Item.objects.get(slug=slug)
-    variations_list = item.itemvariation_set.all() # returns all foreignkey relations for an item (backwards direction)
+    variations_list = item.itemvariation_set.all()  # returns all foreignkey relations for an item (backwards direction)
     context = {
         'item': item,
         'variations_list': variations_list,
@@ -450,10 +485,10 @@ def remove_single_item_from_cart(request, slug):
 
         else:
             messages.info(request, "This item was not in your cart")
-            return redirect("core:product", slug=slug)
+            return redirect("core:order-summary", slug=slug)
     else:
         messages.info(request, "You do not have an active order")
-        return redirect("core:product", slug=slug)
+        return redirect("core:order-summary", slug=slug)
 
 
 # def get_coupon(request, code):
@@ -483,9 +518,7 @@ def remove_single_item_from_cart(request, slug):
 
 
 '''
-
 Printout Views for admin page using xhtml2pdf to create pdfs from templates
-
 '''
 
 
@@ -523,7 +556,7 @@ class LunchOrderPrintout(View):
 
 
 class NetOrderPrintout(View):
-    def get(self, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         try:
             pickup_date = datetime.date.today()
             queryset = NetOrders.objects.get(date=pickup_date)
@@ -533,5 +566,6 @@ class NetOrderPrintout(View):
             }
             return Render.render('admin/net_order_printout.html', params)
         except ObjectDoesNotExist:
+            messages.add_message(request, messages.INFO, "There are no orders logged for today")
             return redirect('/admin')
 

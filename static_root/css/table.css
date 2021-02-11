@@ -1,0 +1,64 @@
+@page {
+    size: A4;
+    margin: 1cm;
+        }
+
+body{
+  margin-top: 20px;
+  margin-bottom: 50px;
+  margin-right: 50px;
+  margin-left: 50px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td {
+  height: 30px;
+  vertical-align: center;
+}
+
+th, td {
+  text-align: left;
+}
+
+th{
+    padding: 5px;
+    border: 1px solid black;
+}
+.quantity-column{
+    width: 10px;
+    border: 1px solid black;
+}
+
+.item-column{
+    width: 150px;
+    border: 1px solid black;
+
+}
+
+.user-column{
+    width:20px;
+}
+.item-quantity-column{
+}
+
+.name-column{
+    width:20%;
+}
+
+.item-quantity-table{
+}
+
+.base-table{
+  border: 1px solid black;
+}
+.text{
+    padding: 5px;
+}
+
+.full-border{
+    border: 1px solid black;
+}

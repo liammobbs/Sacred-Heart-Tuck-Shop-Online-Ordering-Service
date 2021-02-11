@@ -15,11 +15,25 @@
 
 <!-- Modal data refresh function -->
 <script type="text/javascript">
-    //window resize to fix ios adress bar issue
+    //window resize to fix ios address bar issue
+
+    // First we get the viewport height and we multiply it by 1% to get a value for a vh unit
+
+
     window.onresize = function() {
     document.body.height = window.innerHeight;
+    let vh = window.innerHeight * 0.01;
+    // Then we set the value in the --vh custom property to the root of the document
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
     }
-    window.onresize(); // called to initially set the height.
+    window.onresize();
+
+    // We listen to the resize event
+    window.addEventListener('resize', () => {
+      // We execute the same script as before
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    });
 
   $(document).on('click','.open-OptionModal',function(){
     let slug = $(this).data('slug');
@@ -37,6 +51,15 @@
         "{% url 'core:update-variations' %}?slug=" +slug
         );
         }
+
+function AjaxUpdateQuantity(quantity_url) {
+    $.ajax({
+        url: quantity_url,
+        success: function(response) {alert(response);},
+        error: function() {alert("Couldn't remove item");}
+    })
+ };
+
 
 
 </script>
