@@ -57,7 +57,7 @@ class CheckoutView(View):
             today = today + datetime.timedelta(days=1)
 
         status_open = True
-        if today.weekday() in (5 , 6):
+        if today.weekday() in (5, 6):
             status_open = False
         else:
             try:
@@ -404,6 +404,10 @@ def add_to_cart(request, slug):
         )
 
     order_qs = Order.objects.filter(user=request.user, ordered=False)
+    isAjax=False
+    if request.method == "POST":
+        isAjax= request.POST.get('isAjax')
+    print(isAjax)
 
     if order_qs.exists(): # checks if there is a current order
         order = order_qs[0]
@@ -412,13 +416,16 @@ def add_to_cart(request, slug):
             if order_item.quantity < order_item.item.maximum_quantity:  # maximum quantity check, might remove later
                 order_item.quantity += 1
                 order_item.save()
+                # if not isAjax:
                 messages.info(request , "This item quantity was updated.")
                 return redirect("core:order-summary")
             else:
+                # if not isAjax:
                 messages.info(request , "Maximum Quantity Reached")
                 return redirect("core:order-summary")
         else:
             order.items.add(order_item)
+            # if not isAjax:
             messages.info(request , "This item was added to your cart.")
             return redirect("core:order-summary")
     else:
@@ -426,6 +433,7 @@ def add_to_cart(request, slug):
         order = Order.objects.create(
             user=request.user , order_date=order_date)
         order.items.add(order_item)
+        # if not isAjax:
         messages.info(request , "This item was added to your cart.")
         return redirect("core:order-summary")
 

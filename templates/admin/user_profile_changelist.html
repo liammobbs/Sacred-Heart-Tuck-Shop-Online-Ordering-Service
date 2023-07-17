@@ -6,10 +6,15 @@
         <form action="clear_user_data/" method="POST">
             {% csrf_token %}
             <p class="deletelink-box">
-                <button type="submit" class="deletelink">Clear User Data</button>
+                <a type="submit" class="delete-link" href>Clear User Data</a>
             </p>
         </form>
     </div>
     <br />
     {{ block.super }}
 {% endblock %}
+
+<a class="confirm-delete" ...>Delete</a>
+$(document).on('click', '.confirm-delete', function(){
+    return confirm('Are you sure you want to delete this?');
+})

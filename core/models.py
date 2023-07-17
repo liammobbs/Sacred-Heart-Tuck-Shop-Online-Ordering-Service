@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
-from django.db.models.signals import post_save , pre_save
+from django.db.models.signals import post_save, pre_save
 from django.conf import settings
 from django.db import models
 from django.dispatch import receiver
@@ -13,7 +13,6 @@ from django.urls import reverse
 from django.db.models import signals
 import datetime
 
-
 CATEGORY_CHOICES = (
     ('HF', 'Hot Food'),
     ('CF', 'Cold Food'),
@@ -22,7 +21,7 @@ CATEGORY_CHOICES = (
     ('D', 'Drink'),
 )
 
-BREAK_CHOICES =(
+BREAK_CHOICES = (
     ('T', 'Morning Tea'),
     ('L', 'Lunch')
 )
@@ -73,6 +72,7 @@ class CutoffTime(models.Model):
     class Meta:
         verbose_name = 'Cutoff Time'
         verbose_name_plural = 'Cutoff Time'
+
     cutoff = models.TimeField(default=datetime.time(hour=9, minute=0, second=0, microsecond=0))
 
     def save(self, *args, **kwargs):
@@ -95,13 +95,12 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
-    def save(self , *args , **kwargs):
+    def save(self, *args, **kwargs):
         email_address = self.user.email
         self.user_email = email_address
         self.firstname = self.user.first_name
         self.lastname = self.user.last_name
         super().save(*args, **kwargs)
-
 
 
 def userprofile_receiver(sender, instance, created, *args, **kwargs):
@@ -111,14 +110,18 @@ def userprofile_receiver(sender, instance, created, *args, **kwargs):
 
 post_save.connect(userprofile_receiver, sender=settings.AUTH_USER_MODEL)
 
-def delete_user(sender, instance=None, **kwargs): #deletes user when user profile is deleted to prevent errors
+
+def delete_user(sender, instance=None, **kwargs):  # deletes user when user profile is deleted to prevent errors
     try:
         instance.user
     except User.DoesNotExist:
         pass
     else:
         instance.user.delete()
+
+
 signals.post_delete.connect(delete_user, sender=UserProfile)
+
 
 @receiver(pre_save, sender=User)
 def update_username_from_email(sender, instance, **kwargs):
@@ -127,7 +130,6 @@ def update_username_from_email(sender, instance, **kwargs):
         username = user_email[:30].split("@")[0]
 
         instance.username = username
-
 
 
 # ''' Category model'''
@@ -143,10 +145,12 @@ def update_username_from_email(sender, instance, **kwargs):
 
 ''' Item model '''
 
+
 class Item(models.Model):
     class Meta:
         verbose_name = 'Item'
         verbose_name_plural = 'Menu'
+
     title = models.CharField(max_length=30)
     price = models.DecimalField(decimal_places=2, max_digits=4, blank=False, null=False)
     discount_price = models.DecimalField(decimal_places=2, blank=True, null=True, max_digits=4)
@@ -154,7 +158,7 @@ class Item(models.Model):
     slug = models.SlugField(default='', editable=False)
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='media/images/', default='media/images/no-image-available-icon-template-260nw'
-                                                                 '-1036735678.jpg_xctPfVt.png') 
+                                                                 '-1036735678.jpg_xctPfVt.png')
     maximum_quantity = models.IntegerField(default=10)
     not_available = models.BooleanField(default=False)
     variations_exist = models.BooleanField(default=False, editable=False)
@@ -198,11 +202,12 @@ class Item(models.Model):
 
 
 class ItemVariation(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE) # deletes Item variation when item is deleted
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)  # deletes Item variation when item is deleted
     variation = models.CharField(max_length=30)  # e.g. flavour or volume (for drinks)
-    price = models.DecimalField("Price (if different from base price)", decimal_places=2, max_digits=4, null=True, blank=True)
+    price = models.DecimalField("Price (if different from base price)", decimal_places=2, max_digits=4, null=True,
+                                blank=True)
     # discount_price = models.DecimalField(decimal_places=2 , blank=True , null=True , max_digits=4)
-    image = models.ImageField(upload_to='media/images/' ,
+    image = models.ImageField(upload_to='media/images/',
                               default='media/images/no-image-available-icon-template-260nw-1036735678.jpg_xctPfVt.png')
     slug = models.SlugField(default='')
     not_available = models.BooleanField(default=False)
@@ -215,9 +220,9 @@ class ItemVariation(models.Model):
     def __str__(self):
         return self.item.title + ' (' + self.variation + ')'
 
-    def save(self , *args , **kwargs):
+    def save(self, *args, **kwargs):
         value = (self.item.title + '-' + self.variation)
-        self.slug = slugify(value , allow_unicode=True)
+        self.slug = slugify(value, allow_unicode=True)
 
         # if not self.discount_price:
         #     self.discount_price = self.item.discount_price
@@ -230,8 +235,8 @@ class ItemVariation(models.Model):
             self.item.variations_exist = False
         self.item.save(*args, **kwargs)
 
-    def delete(self, *args , **kwargs):
-        super().delete(*args , **kwargs)
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
         if ItemVariation.objects.filter(item=self.item).exists():
             self.item.variations_exist = True
         else:
@@ -253,10 +258,11 @@ class OrderItem(models.Model):
     ordered = models.BooleanField(default=False)
 
     title = models.CharField(default='', max_length=50)
-    price = models.DecimalField(default=0.00, decimal_places=2 , max_digits=4)
+    price = models.DecimalField(default=0.00, decimal_places=2, max_digits=4)
     slug = models.SlugField(default='')
 
-    item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, blank=True) # sets field to null to protect model
+    item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True,
+                             blank=True)  # sets field to null to protect model
     item_variations = models.ForeignKey(ItemVariation, on_delete=models.SET_NULL, null=True)
 
     quantity = models.IntegerField(default=1)
@@ -274,7 +280,7 @@ class OrderItem(models.Model):
                 self.title = self.item.title
                 self.price = self.item.price
                 self.slug = self.item.slug
-        super().save(*args , **kwargs)
+        super().save(*args, **kwargs)
 
     def get_total_item_price(self):
         if not self.item_variations:
@@ -306,7 +312,6 @@ class Order(models.Model):
     payment_option = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='B')
     order_total = models.DecimalField(decimal_places=2, max_digits=6, default=0.00)
     # coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, blank=True, null=True)
-
 
     '''
     1. Item added to cart
@@ -345,22 +350,22 @@ class Order(models.Model):
             'ref_code': self.ref_code
         })
 
-    def delete(self, *args , **kwargs):
+    def delete(self, *args, **kwargs):
         net_order = NetOrders.objects.get(
             date=self.pickup_date
         )
         for order_item in self.items.all():
             net_item = NetItem.objects.get(
-                date=net_order ,
-                slug=order_item.slug ,
-                title=order_item.title ,
+                date=net_order,
+                slug=order_item.slug,
+                title=order_item.title,
             )
             net_item.quantity -= order_item.quantity
-            if net_item.quantity<=0:
+            if net_item.quantity <= 0:
                 net_item.delete()
             else:
                 net_item.save()
-        super().delete(*args , **kwargs)
+        super().delete(*args, **kwargs)
 
 
 class Refund(models.Model):
@@ -376,6 +381,7 @@ class NetOrders(models.Model):
     class Meta:
         verbose_name = 'Net Orders'
         verbose_name_plural = 'Net Orders'
+
     date = models.DateField(default=datetime.date.today)
 
     def __str__(self):
@@ -384,7 +390,7 @@ class NetOrders(models.Model):
 
 class NetItem(models.Model):
     date = models.ForeignKey(NetOrders, on_delete=models.CASCADE)
-    title = models.CharField(default='' , max_length=50)
+    title = models.CharField(default='', max_length=50)
     slug = models.SlugField(default='')
     quantity = models.IntegerField(default=0)
 

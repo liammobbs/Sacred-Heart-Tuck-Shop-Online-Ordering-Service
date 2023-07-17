@@ -36,6 +36,9 @@ class RefundForm(forms.Form):
     }))
     email = forms.EmailField()
 
+class ClearUserForm(forms.Form):
+    title = 'Clear all non staff users and all related data from the database'
+    user = forms.ModelChoiceField(queryset=User.objects.all())
 #
 # class PaymentForm(forms.Form):
 #     stripeToken = forms.CharField(required=False)

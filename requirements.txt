@@ -8,7 +8,7 @@ cffi==1.14.0
 chardet==3.0.4
 cryptography==2.9.2
 defusedxml==0.6.0
-Django==3.1.6
+Django==2.2.13
 django-allauth==0.39.1
 django-countries==5.3.3
 django-crispy-forms==1.7.2
@@ -40,7 +40,7 @@ webencodings==0.5.1
 xhtml2pdf==0.2.4
 python-decouple==3.1
 django-reverse-admin==2.8.1
-psycopg2-binary==2.8.5
+psycopg2-binary==2.8.6
 django-admin-shell==0.1.2
 
 

@@ -1,4 +1,5 @@
 
+{% load static %}
 
 <!-- Modal -->
 <div class="modal-content">
@@ -28,14 +29,10 @@
   </div>
 </div>
 
-<script type="text/javascript">
-
-    $('.optionsgroup').change(function(e) {
-          $(".alert").alert('close')
-          const $this = $(this), $link = $("#optionurl");
-          $link.attr("href", $this.attr("data-url"));
-        });
-
-
+<script>
+  $('.optionsgroup').change(function(e) {
+    $(".alert").alert('close')
+    const $this = $(this), $link = $("#optionurl");
+    $link.attr("href", $this.attr("data-url"));
+  });
 </script>
-

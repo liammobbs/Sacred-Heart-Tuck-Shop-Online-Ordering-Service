@@ -7,6 +7,7 @@ from django.template.response import TemplateResponse
 from django.urls import path
 from django.contrib.auth.admin import UserAdmin
 from django.shortcuts import redirect, render
+from django.contrib.admin.views.decorators import staff_member_required, user_passes_test
 
 # def make_refund_accepted(modeladmin, request, queryset):
 #     queryset.update(refund_requested=False, refund_granted=True)
@@ -39,8 +40,11 @@ def linkify(field_name):
 def require_confirmation(func):
     def wrapper(request, queryset):
         if request.POST.get("confirmation") is None:
-            # request.current_app = modeladmin.admin_site.name
-            context = {"action": request.POST["action"], "queryset":queryset}
+            request.current_app = modeladmin.admin_site.name
+            context = {
+                "action": request.POST["action"],
+                "queryset":queryset
+            }
             return TemplateResponse(request, "admin/action_confirmation.html", context)
 
         return func(request)
@@ -49,8 +53,11 @@ def require_confirmation(func):
     return wrapper
 
 
-# @require_confirmation
+
+@staff_member_required
+@user_passes_test(lambda u: u.is_superuser)
 def clear_user_data(request):
+
     messages.add_message(request , messages.INFO , "(TEST MESSAGE) All User Data has been cleared")
     # for obj in User.objects.filter(is_staff=False, is_superuser=False):
     #     obj.delete()

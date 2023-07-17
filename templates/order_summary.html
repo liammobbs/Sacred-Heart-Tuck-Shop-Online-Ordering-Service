@@ -23,8 +23,11 @@
                     <td>{{ order_item.title }}</td>
                     <td>{{ order_item.price }}</td>
                     <td>
-                        <a href="{% url 'core:remove-single-item-from-cart' order_item.slug %}"><i class="fas fa-minus mr-2"></i></a>
+                        {% csrf_token %}
+                        <a href="#" onclick="javascript:AjaxUpdateQuantity('{% url 'core:remove-from-cart' order_item.slug %}');"><i class="fas fa-minus mr-2"></i></a>
                         {{ order_item.quantity }}
+                        {% comment %} <a href="{% url 'core:remove-from-cart' order_item.slug %}"><i class="fas fa-minus mr-2"></i></a>
+                        {{ order_item.quantity }} {% endcomment %}
                         <a href="{% url 'core:add-to-cart' order_item.slug %}"><i class="fas fa-plus ml-2"></i></a>
                     </td>
                     <td>
